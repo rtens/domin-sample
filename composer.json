@@ -1,0 +1,11 @@
+{
+  "require": {
+    "rtens/domin": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "rtens\\dominsample\\": "src/"
+    }
+  },
+  "minimum-stability": "dev"
+}
