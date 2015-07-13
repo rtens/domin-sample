@@ -1,0 +1,24 @@
+{
+    "methodCalls" : [
+        {
+            "class" : "\\rtens\\mockster\\Mockster",
+            "method" : "of",
+            "position" : 0
+        },
+        {
+            "class" : "\\rtens\\mockster\\Mockster",
+            "method" : "mock",
+            "position" : 0
+        },
+        {
+            "class" : "\\watoki\\factory\\Factory",
+            "method" : "getInstance",
+            "position" : 0
+        },
+        {
+            "class" : "\\watoki\\factory\\Factory",
+            "method" : "setSingleton",
+            "position" : 0
+        }
+    ]
+}

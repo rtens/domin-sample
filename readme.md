@@ -6,13 +6,9 @@ Download the project with [git] and build it with [composer]
     cd domin-sample
     composer install
     
-Run the CLI application
+Start a development server to run the web application on [localhost:8080](http://localhost:8080)
 
-    php cli.php
-    
-Start a development server to run the web application on [localhost:8080/web.php](http://localhost:8080/web.php)
-
-    php -S localhost:8080
+    php -S localhost:8080 index.php
 
 [composer]: http://getcomposer.org
 [git]: http://git-scm.org

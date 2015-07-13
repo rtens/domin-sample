@@ -4,7 +4,7 @@
   },
   "autoload": {
     "psr-4": {
-      "rtens\\dominsample\\": "src/"
+      "rtens\\blog\\": "src/"
     }
   },
   "minimum-stability": "dev"
