@@ -114,4 +114,11 @@ class Post {
         $this->title = $title;
         $this->updated = new \DateTime();
     }
+
+    /**
+     * @param boolean $published
+     */
+    public function setPublished($published) {
+        $this->published = $published;
+    }
 } 

@@ -14,6 +14,7 @@ use rtens\blog\storage\PersistentPostRepository;
 use rtens\domin\ActionRegistry;
 use rtens\domin\delivery\FieldRegistry;
 use rtens\domin\delivery\RendererRegistry;
+use rtens\domin\web\fields\BooleanField;
 use rtens\domin\web\fields\FileField;
 use rtens\domin\web\fields\HtmlField;
 use rtens\domin\web\fields\StringField;
@@ -48,6 +49,7 @@ class Admin {
 
         $fields = $factory->setSingleton(new FieldRegistry());
         $fields->add(new StringField());
+        $fields->add(new BooleanField());
         $fields->add(new FileField());
         $fields->add(new HtmlField());
 

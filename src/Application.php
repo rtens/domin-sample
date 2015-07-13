@@ -57,11 +57,13 @@ class Application {
 
     public function handleWritePost(WritePost $command) {
         $author = $this->authors->read($command->getAuthor());
-        $this->posts->create(new Post(
+        $post = new Post(
             time() . '_' . preg_replace('/[^a-zA-Z0-9]/', '', $command->getTitle()),
             $author->getEmail(),
             $command->getTitle(),
-            $command->getText()));
+            $command->getText());
+        $post->setPublished($command->isPublished());
+        $this->posts->create($post);
     }
 
     public function handleListPosts() {

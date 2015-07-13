@@ -13,16 +13,20 @@ class WritePost {
 
     private $tags;
 
+    private $published;
+
     /**
      * @param string $author
      * @param string $title
      * @param Html $text
+     * @param bool $published
      */
-    function __construct($author, $title, $text) {
+    function __construct($author, $title, $text, $published = true) {
         $this->author = $author;
         $this->tags = [];
         $this->text = $text;
         $this->title = $title;
+        $this->published = $published;
     }
 
     /**
@@ -51,5 +55,12 @@ class WritePost {
      */
     public function getTitle() {
         return $this->title;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPublished() {
+        return $this->published;
     }
 } 
