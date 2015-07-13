@@ -26,6 +26,8 @@ class CommandAction extends ObjectAction {
      * @return array Filled values indexed by name
      */
     public function fill(array $parameters) {
+        $parameters = parent::fill($parameters);
+
         $methodName = 'fill' . $this->class->getShortName();
         if (method_exists($this->handler, $methodName)) {
             return call_user_func([$this->handler, $methodName], $parameters);
