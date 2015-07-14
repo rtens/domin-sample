@@ -74,7 +74,7 @@ class Post {
     /**
      * @return boolean
      */
-    public function getPublished() {
+    public function isPublished() {
         return $this->published;
     }
 

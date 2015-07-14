@@ -5,7 +5,9 @@ use rtens\blog\Application;
 use rtens\blog\model\Author;
 use rtens\blog\model\commands\ChangeAuthorName;
 use rtens\blog\model\commands\ChangeAuthorPicture;
+use rtens\blog\model\commands\PublishPost;
 use rtens\blog\model\commands\RegisterAuthor;
+use rtens\blog\model\commands\UnPublishPost;
 use rtens\blog\model\commands\UpdatePost;
 use rtens\blog\model\commands\WritePost;
 use rtens\blog\model\Post;
@@ -50,6 +52,8 @@ class Admin {
         $actions->add('writePost', new CommandAction(WritePost::class, $handler));
         $actions->add('listPosts', new CommandAction(ListPosts::class, $handler));
         $actions->add('updatePost', new CommandAction(UpdatePost::class, $handler));
+        $actions->add('publishPost', new CommandAction(PublishPost::class, $handler));
+        $actions->add('unpublishPost', new CommandAction(UnPublishPost::class, $handler));
 
         $fields = $factory->setSingleton(new FieldRegistry());
         $fields->add(new StringField());
@@ -60,12 +64,21 @@ class Admin {
         $authorParameters = function (Author $author) {
             return ['email' => $author->getEmail()];
         };
-        $links = new LinkRegistry();
-        $links->add(new ClassLink('changeAuthorPicture', Author::class, $authorParameters));
-        $links->add(new ClassLink('changeAuthorName', Author::class, $authorParameters));
-        $links->add(new ClassLink('updatePost', Post::class, function (Post $post) {
+        $postParameters = function (Post $post) {
             return ['id' => $post->getId()];
-        }));
+        };
+        $links = new LinkRegistry();
+        $links->add(new ClassLink(Author::class, 'changeAuthorPicture', $authorParameters));
+        $links->add(new ClassLink(Author::class, 'changeAuthorName', $authorParameters));
+        $links->add(new ClassLink(Post::class, 'updatePost', $postParameters));
+        $links->add((new ClassLink(Post::class, 'publishPost', $postParameters))
+            ->setHandles(function ($post) {
+                return $post instanceof Post && !$post->isPublished();
+            }));
+        $links->add((new ClassLink(Post::class, 'unpublishPost', $postParameters))
+            ->setHandles(function ($post) {
+                return $post instanceof Post && $post->isPublished();
+            }));
 
         $renderers = $factory->setSingleton(new RendererRegistry());
         $renderers->add(new FileRenderer($pictureDir));

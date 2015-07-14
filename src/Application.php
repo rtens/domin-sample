@@ -4,7 +4,9 @@ namespace rtens\blog;
 use rtens\blog\model\Author;
 use rtens\blog\model\commands\ChangeAuthorName;
 use rtens\blog\model\commands\ChangeAuthorPicture;
+use rtens\blog\model\commands\PublishPost;
 use rtens\blog\model\commands\RegisterAuthor;
+use rtens\blog\model\commands\UnPublishPost;
 use rtens\blog\model\commands\UpdatePost;
 use rtens\blog\model\commands\WritePost;
 use rtens\blog\model\Post;
@@ -84,6 +86,18 @@ class Application {
             $parameters['text'] = $post->getText();
         }
         return $parameters;
+    }
+
+    public function handlePublishPost(PublishPost $command) {
+        $post = $this->posts->read($command->getId());
+        $post->setPublished(true);
+        $this->posts->update($post);
+    }
+
+    public function handleUnPublishPost(UnPublishPost $command) {
+        $post = $this->posts->read($command->getId());
+        $post->setPublished(false);
+        $this->posts->update($post);
     }
 
 } 
