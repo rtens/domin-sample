@@ -57,12 +57,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rtens/domin.git",
-                "reference": "23c53dc4c24c9fca36331aca27728cf35817e4cb"
+                "reference": "8cb619185d214aae3935631ce6a5979acca9d16f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rtens/domin/zipball/23c53dc4c24c9fca36331aca27728cf35817e4cb",
-                "reference": "23c53dc4c24c9fca36331aca27728cf35817e4cb",
+                "url": "https://api.github.com/repos/rtens/domin/zipball/8cb619185d214aae3935631ce6a5979acca9d16f",
+                "reference": "8cb619185d214aae3935631ce6a5979acca9d16f",
                 "shasum": ""
             },
             "require": {
@@ -99,7 +99,7 @@
                 "ddd",
                 "domain model"
             ],
-            "time": "2015-07-13 12:44:22"
+            "time": "2015-07-14 12:48:57"
         },
         {
             "name": "watoki/collections",
@@ -152,12 +152,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/watoki/curir.git",
-                "reference": "1394c40ac929fc31020bcb0cbf90ccd342154666"
+                "reference": "73b834a2933a6a8ffe919f63d3696299f1b77caa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/watoki/curir/zipball/1394c40ac929fc31020bcb0cbf90ccd342154666",
-                "reference": "1394c40ac929fc31020bcb0cbf90ccd342154666",
+                "url": "https://api.github.com/repos/watoki/curir/zipball/73b834a2933a6a8ffe919f63d3696299f1b77caa",
+                "reference": "73b834a2933a6a8ffe919f63d3696299f1b77caa",
                 "shasum": ""
             },
             "require": {
@@ -196,7 +196,7 @@
                 "routing",
                 "watoki"
             ],
-            "time": "2015-07-10 09:32:45"
+            "time": "2015-07-14 08:25:13"
         },
         {
             "name": "watoki/deli",
@@ -204,12 +204,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/watoki/deli.git",
-                "reference": "307ab738c4d00454bd84a5ac2b31d9eb88b5ad35"
+                "reference": "41d7450726d47e9c3f250681cf48a6f861cb9331"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/watoki/deli/zipball/307ab738c4d00454bd84a5ac2b31d9eb88b5ad35",
-                "reference": "307ab738c4d00454bd84a5ac2b31d9eb88b5ad35",
+                "url": "https://api.github.com/repos/watoki/deli/zipball/41d7450726d47e9c3f250681cf48a6f861cb9331",
+                "reference": "41d7450726d47e9c3f250681cf48a6f861cb9331",
                 "shasum": ""
             },
             "require": {
@@ -248,7 +248,7 @@
                 "routing",
                 "watoki"
             ],
-            "time": "2015-07-03 12:04:49"
+            "time": "2015-07-14 08:29:58"
         },
         {
             "name": "watoki/factory",

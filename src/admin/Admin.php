@@ -2,11 +2,13 @@
 namespace rtens\blog\admin;
 
 use rtens\blog\Application;
+use rtens\blog\model\Author;
 use rtens\blog\model\commands\ChangeAuthorName;
 use rtens\blog\model\commands\ChangeAuthorPicture;
 use rtens\blog\model\commands\RegisterAuthor;
 use rtens\blog\model\commands\UpdatePost;
 use rtens\blog\model\commands\WritePost;
+use rtens\blog\model\Post;
 use rtens\blog\model\queries\ListAuthors;
 use rtens\blog\model\queries\ListPosts;
 use rtens\blog\storage\PersistentAuthorRepository;
@@ -23,15 +25,17 @@ use rtens\domin\web\renderers\BooleanRenderer;
 use rtens\domin\web\renderers\DateTimeRenderer;
 use rtens\domin\web\renderers\FileRenderer;
 use rtens\domin\web\renderers\HtmlRenderer;
-use rtens\domin\web\renderers\ObjectRenderer;
+use rtens\domin\web\renderers\object\ClassLink;
+use rtens\domin\web\renderers\object\LinkRegistry;
+use rtens\domin\web\renderers\object\ObjectRenderer;
 use rtens\domin\web\renderers\PrimitiveRenderer;
 use watoki\factory\Factory;
 
 class Admin {
 
-    public static function init($storageDir, Factory $factory = null) {
+    public static function init($storageDir, $baseUrl, Factory $factory = null) {
         $pictureDir = $storageDir . '/pictures';
-        $factory = $factory ? : new Factory();
+        $factory = $factory ?: new Factory();
 
         $handler = new Application(
             new PersistentAuthorRepository($storageDir),
@@ -53,12 +57,22 @@ class Admin {
         $fields->add(new FileField());
         $fields->add(new HtmlField());
 
+        $authorParameters = function (Author $author) {
+            return ['email' => $author->getEmail()];
+        };
+        $links = new LinkRegistry();
+        $links->add(new ClassLink('changeAuthorPicture', Author::class, $authorParameters));
+        $links->add(new ClassLink('changeAuthorName', Author::class, $authorParameters));
+        $links->add(new ClassLink('updatePost', Post::class, function (Post $post) {
+            return ['id' => $post->getId()];
+        }));
+
         $renderers = $factory->setSingleton(new RendererRegistry());
         $renderers->add(new FileRenderer($pictureDir));
         $renderers->add(new DateTimeRenderer());
         $renderers->add(new HtmlRenderer());
         $renderers->add(new ArrayRenderer($renderers));
-        $renderers->add(new ObjectRenderer($renderers));
+        $renderers->add(new ObjectRenderer($renderers, $links, $baseUrl));
         $renderers->add(new BooleanRenderer());
         $renderers->add(new PrimitiveRenderer());
 
