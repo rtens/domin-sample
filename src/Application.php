@@ -42,7 +42,7 @@ class Application {
     }
 
     public function fillChangeAuthorName($parameters) {
-        if (array_key_exists('email', $parameters)) {
+        if ($parameters['email']) {
             $author = $this->authors->read($parameters['email']);
             $parameters['name'] = $author->getName();
         }
@@ -78,7 +78,7 @@ class Application {
     }
 
     public function fillUpdatePost($parameters) {
-        if (isset($parameters['id'])) {
+        if ($parameters['id']) {
             $post = $this->posts->read($parameters['id']);
             $parameters['title'] = $post->getTitle();
             $parameters['text'] = $post->getText();
