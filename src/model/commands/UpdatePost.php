@@ -3,7 +3,7 @@ namespace rtens\blog\model\commands;
 
 use rtens\domin\parameters\Html;
 
-class UpdatePost {
+class UpdatePost implements PostCommand {
 
     private $id;
 

@@ -19,11 +19,12 @@ class WritePost {
      * @param string $author
      * @param string $title
      * @param Html $text
+     * @param array|string[] $tags
      * @param bool $published
      */
-    function __construct($author, $title, $text, $published = true) {
+    function __construct($author, $title, $text, $tags = [], $published = true) {
         $this->author = $author;
-        $this->tags = [];
+        $this->tags = $tags;
         $this->text = $text;
         $this->title = $title;
         $this->published = $published;
@@ -37,7 +38,7 @@ class WritePost {
     }
 
     /**
-     * @return array|\string[]
+     * @return array|string[]
      */
     public function getTags() {
         return $this->tags;

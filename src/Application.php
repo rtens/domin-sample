@@ -4,12 +4,15 @@ namespace rtens\blog;
 use rtens\blog\model\Author;
 use rtens\blog\model\commands\ChangeAuthorName;
 use rtens\blog\model\commands\ChangeAuthorPicture;
+use rtens\blog\model\commands\ChangePostTags;
+use rtens\blog\model\commands\DeletePost;
 use rtens\blog\model\commands\PublishPost;
 use rtens\blog\model\commands\RegisterAuthor;
 use rtens\blog\model\commands\UnPublishPost;
 use rtens\blog\model\commands\UpdatePost;
 use rtens\blog\model\commands\WritePost;
 use rtens\blog\model\Post;
+use rtens\blog\model\queries\ShowPost;
 use rtens\blog\model\repositories\AuthorRepository;
 use rtens\blog\model\repositories\PostRepository;
 
@@ -57,6 +60,10 @@ class Application {
         $this->authors->update($author);
     }
 
+    public function handleDeletePost(DeletePost $command) {
+        $this->posts->delete($command->getId());
+    }
+
     public function handleWritePost(WritePost $command) {
         $author = $this->authors->read($command->getAuthor());
         $post = new Post(
@@ -65,11 +72,18 @@ class Application {
             $command->getTitle(),
             $command->getText());
         $post->setPublished($command->isPublished());
+        $post->setTags($command->getTags());
         $this->posts->create($post);
+
+        return $post;
     }
 
     public function handleListPosts() {
         return $this->posts->readAll();
+    }
+
+    public function handleShowPost(ShowPost $command) {
+        return $this->posts->read($command->getId());
     }
 
     public function handleUpdatePost(UpdatePost $command) {
@@ -100,4 +114,15 @@ class Application {
         $this->posts->update($post);
     }
 
+    public function handleChangePostTags(ChangePostTags $command) {
+        $post = $this->posts->read($command->getId());
+        $post->setTags($command->getTags());
+        $this->posts->update($post);
+    }
+
+    public function fillChangePostTags(array $parameters) {
+        $post = $this->posts->read($parameters['id']);
+        $parameters['tags'] = $post->getTags();
+        return $parameters;
+    }
 } 

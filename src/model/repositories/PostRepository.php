@@ -27,4 +27,10 @@ interface PostRepository {
      * @return null
      */
     public function update(Post $post);
+
+    /**
+     * @param string $id
+     * @return null
+     */
+    public function delete($id);
 }

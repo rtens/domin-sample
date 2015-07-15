@@ -8,15 +8,31 @@ class CommandAction extends ObjectAction {
 
     /** @var Application */
     private $handler;
+    private $afterExecuted;
 
     function __construct($commandClass, Application $handler) {
         parent::__construct($commandClass);
         $this->handler = $handler;
     }
 
+    /**
+     * @param callable $callback Receives the command object and the value returned by the handler
+     * @return $this
+     */
+    public function setAfterExecuted(callable $callback) {
+        $this->afterExecuted = $callback;
+        return $this;
+    }
+
     protected function executeWith($object) {
         $methodName = 'handle' . $this->class->getShortName();
-        return call_user_func([$this->handler, $methodName], $object);
+        $returned = call_user_func([$this->handler, $methodName], $object);
+
+        if ($this->afterExecuted) {
+            return call_user_func($this->afterExecuted, $object, $returned);
+        } else {
+            return $returned;
+        }
     }
 
     /**

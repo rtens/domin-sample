@@ -35,4 +35,12 @@ class PersistentPostRepository implements PostRepository {
     public function update(Post $post) {
         $this->store->update($post);
     }
+
+    /**
+     * @param string $id
+     * @return null
+     */
+    public function delete($id) {
+        $this->store->delete($id);
+    }
 }

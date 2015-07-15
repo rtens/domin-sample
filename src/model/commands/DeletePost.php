@@ -1,7 +1,7 @@
 <?php
 namespace rtens\blog\model\commands;
 
-class UnPublishPost implements PostCommand {
+class DeletePost {
 
     private $id;
 

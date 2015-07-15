@@ -93,7 +93,7 @@ class Post {
     }
 
     /**
-     * @return array|\string[]
+     * @return array|string[]
      */
     public function getTags() {
         return $this->tags;
@@ -121,4 +121,11 @@ class Post {
     public function setPublished($published) {
         $this->published = $published;
     }
-} 
+
+    /**
+     * @param array|string[] $tags
+     */
+    public function setTags($tags) {
+        $this->tags = array_unique($tags);
+    }
+}

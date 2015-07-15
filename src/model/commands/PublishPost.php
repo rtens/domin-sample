@@ -1,7 +1,7 @@
 <?php
 namespace rtens\blog\model\commands;
 
-class PublishPost {
+class PublishPost implements PostCommand {
 
     private $id;
 
