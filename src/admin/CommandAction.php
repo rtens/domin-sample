@@ -3,6 +3,7 @@ namespace rtens\blog\admin;
 
 use rtens\blog\Application;
 use rtens\domin\reflection\ObjectAction;
+use watoki\reflect\TypeFactory;
 
 class CommandAction extends ObjectAction {
 
@@ -10,8 +11,8 @@ class CommandAction extends ObjectAction {
     private $handler;
     private $afterExecuted;
 
-    function __construct($commandClass, Application $handler) {
-        parent::__construct($commandClass);
+    function __construct($commandClass, Application $handler, TypeFactory $types) {
+        parent::__construct($commandClass, $types);
         $this->handler = $handler;
     }
 

@@ -24,6 +24,7 @@ use rtens\domin\delivery\RendererRegistry;
 use rtens\domin\execution\RedirectResult;
 use rtens\domin\web\fields\ArrayField;
 use rtens\domin\web\fields\BooleanField;
+use rtens\domin\web\fields\DateTimeField;
 use rtens\domin\web\fields\FileField;
 use rtens\domin\web\fields\HtmlField;
 use rtens\domin\web\fields\StringField;
@@ -40,84 +41,118 @@ use rtens\domin\web\renderers\object\LinkRegistry;
 use rtens\domin\web\renderers\object\ObjectRenderer;
 use rtens\domin\web\renderers\PrimitiveRenderer;
 use watoki\factory\Factory;
+use watoki\reflect\TypeFactory;
 
 class Admin {
 
-    public static function init($storageDir, $baseUrl, Factory $factory = null) {
-        $pictureDir = $storageDir . '/pictures';
-        $factory = $factory ?: new Factory();
+    private $menu;
 
-        $handler = new Application(
+    public static function init($storageDir, $baseUrl, Factory $factory = null) {
+        $factory = $factory ?: new Factory();
+        (new Admin($storageDir, $baseUrl, $factory))->initialize();
+        return $factory;
+    }
+
+    public function __construct($storageDir, $baseUrl, Factory $factory) {
+        $this->pictureDir = $storageDir . '/pictures';
+        $this->baseUrl = $baseUrl;
+
+        $this->handler = new Application(
             new PersistentAuthorRepository($storageDir),
             new PersistentPostRepository($storageDir)
         );
 
-        $actions = $factory->setSingleton(new ActionRegistry());
-        $actions->add('registerAuthor', new CommandAction(RegisterAuthor::class, $handler));
-        $actions->add('listAuthors', new CommandAction(ListAuthors::class, $handler));
-        $actions->add('changeAuthorPicture', new CommandAction(ChangeAuthorPicture::class, $handler));
-        $actions->add('changeAuthorName', new CommandAction(ChangeAuthorName::class, $handler));
-        $actions->add('writePost', (new CommandAction(WritePost::class, $handler))
+        $this->actions = $factory->setSingleton(new ActionRegistry());
+        $this->fields = $factory->setSingleton(new FieldRegistry());
+        $this->renderers = $factory->setSingleton(new RendererRegistry());
+        $this->menu = $factory->setSingleton(new Menu($this->actions));
+        $this->links = new LinkRegistry();
+        $this->types = new TypeFactory();
+    }
+
+    public function initialize() {
+        $this->initActions();
+        $this->initFields();
+        $this->initLinks();
+        $this->initRenderers();
+        $this->initMenu();
+    }
+
+    private function initActions() {
+        $this->addCommand('registerAuthor', RegisterAuthor::class);
+        $this->addCommand('listAuthors', ListAuthors::class);
+        $this->addCommand('changeAuthorPicture', ChangeAuthorPicture::class);
+        $this->addCommand('changeAuthorName', ChangeAuthorName::class);
+        $this->addCommand('writePost', WritePost::class)
             ->setAfterExecuted(function ($command, Post $post) {
                 return new RedirectResult('showPost', ['id' => $post->getId()]);
-            }));
-        $actions->add('listPosts', new CommandAction(ListPosts::class, $handler));
-        $actions->add('showPost', new CommandAction(ShowPost::class, $handler));
-        $actions->add('updatePost', new CommandAction(UpdatePost::class, $handler));
-        $actions->add('publishPost', new CommandAction(PublishPost::class, $handler));
-        $actions->add('unpublishPost', new CommandAction(UnPublishPost::class, $handler));
-        $actions->add('changeTags', new CommandAction(ChangePostTags::class, $handler));
-        $actions->add('deletePost', (new CommandAction(DeletePost::class, $handler))
+            });
+        $this->addCommand('listPosts', ListPosts::class);
+        $this->addCommand('showPost', ShowPost::class);
+        $this->addCommand('updatePost', UpdatePost::class);
+        $this->addCommand('publishPost', PublishPost::class);
+        $this->addCommand('unpublishPost', UnPublishPost::class);
+        $this->addCommand('changeTags', ChangePostTags::class);
+        $this->addCommand('deletePost', DeletePost::class)
             ->setAfterExecuted(function () {
                 return new RedirectResult('listPosts');
-            }));
+            });
+    }
 
-        $fields = $factory->setSingleton(new FieldRegistry());
-        $fields->add(new StringField());
-        $fields->add(new BooleanField());
-        $fields->add(new FileField());
-        $fields->add(new HtmlField());
-        $fields->add(new ArrayField($fields));
+    private function addCommand($id, $class) {
+        $action = new CommandAction($class, $this->handler, $this->types);
+        $this->actions->add($id, $action);
+        return $action;
+    }
 
+    private function initLinks() {
         $authorParameters = function (Author $author) {
             return ['email' => $author->getEmail()];
         };
         $postParameters = function (Post $post) {
             return ['id' => $post->getId()];
         };
-        $links = new LinkRegistry();
-        $links->add(new ClassLink(Author::class, 'changeAuthorPicture', $authorParameters));
-        $links->add(new ClassLink(Author::class, 'changeAuthorName', $authorParameters));
-        $links->add(new ClassLink(Post::class, 'showPost', $postParameters));
-        $links->add(new ClassLink(Post::class, 'changeTags', $postParameters));
-        $links->add(new ClassLink(Post::class, 'updatePost', $postParameters));
-        $links->add((new ClassLink(Post::class, 'publishPost', $postParameters))
+        $this->links->add(new ClassLink(Author::class, 'changeAuthorPicture', $authorParameters));
+        $this->links->add(new ClassLink(Author::class, 'changeAuthorName', $authorParameters));
+        $this->links->add(new ClassLink(Post::class, 'showPost', $postParameters));
+        $this->links->add(new ClassLink(Post::class, 'changeTags', $postParameters));
+        $this->links->add(new ClassLink(Post::class, 'updatePost', $postParameters));
+        $this->links->add((new ClassLink(Post::class, 'publishPost', $postParameters))
             ->setHandles(function ($post) {
                 return $post instanceof Post && !$post->isPublished();
             }));
-        $links->add((new ClassLink(Post::class, 'unpublishPost', $postParameters))
+        $this->links->add((new ClassLink(Post::class, 'unpublishPost', $postParameters))
             ->setHandles(function ($post) {
                 return $post instanceof Post && $post->isPublished();
             }));
-        $links->add((new ClassLink(Post::class, 'deletePost', $postParameters))
+        $this->links->add((new ClassLink(Post::class, 'deletePost', $postParameters))
             ->setConfirmation('Are you sure?'));
+    }
 
-        $renderers = $factory->setSingleton(new RendererRegistry());
-        $renderers->add(new FileRenderer($pictureDir));
-        $renderers->add(new DateTimeRenderer());
-        $renderers->add(new HtmlRenderer());
-        $renderers->add(new ArrayRenderer($renderers));
-        $renderers->add(new ObjectRenderer($renderers, $links, $baseUrl));
-        $renderers->add(new BooleanRenderer());
-        $renderers->add(new PrimitiveRenderer());
+    private function initFields() {
+        $this->fields->add(new StringField());
+        $this->fields->add(new BooleanField());
+        $this->fields->add(new FileField());
+        $this->fields->add(new HtmlField());
+        $this->fields->add(new ArrayField($this->fields));
+        $this->fields->add(new DateTimeField());
+    }
 
-        $menu = $factory->setSingleton(new Menu($actions));
-        $menu->add(new MenuItem('writePost'));
-        $menu->add(new MenuItem('listPosts'));
-        $menu->addGroup((new MenuGroup('Authors'))
+    private function initRenderers() {
+        $this->renderers->add(new FileRenderer($this->pictureDir));
+        $this->renderers->add(new DateTimeRenderer());
+        $this->renderers->add(new HtmlRenderer());
+        $this->renderers->add(new ArrayRenderer($this->renderers));
+        $this->renderers->add(new ObjectRenderer($this->renderers, $this->links, $this->baseUrl, $this->types));
+        $this->renderers->add(new BooleanRenderer());
+        $this->renderers->add(new PrimitiveRenderer());
+    }
+
+    private function initMenu() {
+        $this->menu->add(new MenuItem('writePost'));
+        $this->menu->add(new MenuItem('listPosts'));
+        $this->menu->addGroup((new MenuGroup('Authors'))
             ->add(new MenuItem('registerAuthor'))
             ->add(new MenuItem('listAuthors')));
-
-        return $factory;
     }
 }

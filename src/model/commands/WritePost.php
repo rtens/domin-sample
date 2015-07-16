@@ -15,6 +15,9 @@ class WritePost {
 
     private $published;
 
+    /** @var \DateTime */
+    public $ignored;
+
     /**
      * @param string $author
      * @param string $title
