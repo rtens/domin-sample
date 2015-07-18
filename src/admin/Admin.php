@@ -21,69 +21,28 @@ use rtens\blog\model\queries\ShowPost;
 use rtens\blog\storage\PersistentAuthorRepository;
 use rtens\blog\storage\PersistentPostRepository;
 use rtens\domin\ActionRegistry;
-use rtens\domin\cli\renderers\ArrayRenderer as CliArrayRenderer;
-use rtens\domin\cli\renderers\BooleanRenderer as CliBooleanRenderer;
-use rtens\domin\cli\renderers\DateTimeRenderer as CliDateTimeRenderer;
-use rtens\domin\cli\renderers\FileRenderer as CliFileRenderer;
-use rtens\domin\cli\renderers\HtmlRenderer as CliHtmlRenderer;
-use rtens\domin\cli\renderers\IdentifierRenderer as CliIdentifierRenderer;
-use rtens\domin\cli\renderers\ObjectRenderer as CliObjectRenderer;
-use rtens\domin\cli\renderers\PrimitiveRenderer as CliPrimitiveRenderer;
 use rtens\domin\delivery\FieldRegistry;
 use rtens\domin\delivery\RendererRegistry;
 use rtens\domin\execution\RedirectResult;
 use rtens\domin\reflection\IdentifiersProvider;
 use rtens\domin\reflection\TypeFactory;
-use rtens\domin\web\fields\ArrayField;
-use rtens\domin\web\fields\BooleanField;
-use rtens\domin\web\fields\DateTimeField;
-use rtens\domin\web\fields\EnumerationField;
-use rtens\domin\web\fields\FileField;
-use rtens\domin\web\fields\HtmlField;
-use rtens\domin\web\fields\IdentifierField;
-use rtens\domin\web\fields\MultiField;
-use rtens\domin\web\fields\NullableField;
-use rtens\domin\web\fields\ObjectField;
-use rtens\domin\web\fields\PrimitiveField;
-use rtens\domin\cli\fields\ArrayField as CliArrayField;
-use rtens\domin\cli\fields\BooleanField as CliBooleanField;
-use rtens\domin\cli\fields\DateTimeField as CliDateTimeField;
-use rtens\domin\cli\fields\EnumerationField as CliEnumerationField;
-use rtens\domin\cli\fields\FileField as CliFileField;
-use rtens\domin\cli\fields\HtmlField as CliHtmlField;
-use rtens\domin\cli\fields\IdentifierField as CliIdentifierField;
-use rtens\domin\cli\fields\MultiField as CliMultiField;
-use rtens\domin\cli\fields\NullableField as CliNullableField;
-use rtens\domin\cli\fields\ObjectField as CliObjectField;
-use rtens\domin\cli\fields\PrimitiveField as CliPrimitiveField;
 use rtens\domin\web\menu\Menu;
 use rtens\domin\web\menu\MenuGroup;
 use rtens\domin\web\menu\MenuItem;
-use rtens\domin\web\renderers\ArrayRenderer;
-use rtens\domin\web\renderers\BooleanRenderer;
-use rtens\domin\web\renderers\DateTimeRenderer;
-use rtens\domin\web\renderers\FileRenderer;
-use rtens\domin\web\renderers\HtmlRenderer;
-use rtens\domin\web\renderers\IdentifierRenderer;
 use rtens\domin\web\renderers\link\ClassLink;
 use rtens\domin\web\renderers\link\IdentifierLink;
-use rtens\domin\web\renderers\link\LinkPrinter;
 use rtens\domin\web\renderers\link\LinkRegistry;
-use rtens\domin\web\renderers\ObjectRenderer;
-use rtens\domin\web\renderers\PrimitiveRenderer;
 use watoki\factory\Factory;
 
 class Admin {
 
-    public static function initWeb($storageDir, $baseUrl, Factory $factory = null) {
+    public static function initWeb($storageDir, Factory $factory = null) {
         $factory = $factory ?: new Factory();
-        $links = new LinkRegistry();
-        $identifiers = new IdentifiersProvider();
+        $identifiers = $factory->setSingleton(new IdentifiersProvider());
+        $links = $factory->setSingleton(new LinkRegistry());
 
         (new Admin($storageDir, $factory))
             ->initActions()
-            ->initWebFields($identifiers)
-            ->initWebRenderers($baseUrl, $links)
             ->initLinks($links)
             ->initIdentifierProviders($identifiers)
             ->initMenu();
@@ -91,13 +50,11 @@ class Admin {
         return $factory;
     }
 
-    public static function initCli($storageDir, callable $read, Factory $factory = null) {
+    public static function initCli($storageDir, Factory $factory = null) {
         $factory = $factory ?: new Factory();
 
         (new Admin($storageDir, $factory))
-            ->initActions()
-            ->initCliFields($read)
-            ->initCliRenderers();
+            ->initActions();
 
         return $factory;
     }
@@ -177,65 +134,6 @@ class Admin {
         $links->add((new IdentifierLink(Author::class, 'showAuthor', 'email')));
         $links->add((new IdentifierLink(Author::class, 'listPosts', 'author')));
 
-        return $this;
-    }
-
-    private function initWebFields(IdentifiersProvider $identifiers) {
-        $this->fields->add(new PrimitiveField());
-        $this->fields->add(new BooleanField());
-        $this->fields->add(new FileField());
-        $this->fields->add(new HtmlField());
-        $this->fields->add(new DateTimeField());
-        $this->fields->add(new ArrayField($this->fields));
-        $this->fields->add(new NullableField($this->fields));
-        $this->fields->add(new ObjectField($this->types, $this->fields));
-        $this->fields->add(new MultiField($this->fields));
-        $this->fields->add(new IdentifierField($this->fields, $identifiers));
-        $this->fields->add(new EnumerationField($this->fields));
-
-        return $this;
-    }
-
-    private function initWebRenderers($baseUrl, LinkRegistry $links) {
-        $links = new LinkPrinter($baseUrl, $links);
-
-        $this->renderers->add(new BooleanRenderer());
-        $this->renderers->add(new PrimitiveRenderer());
-        $this->renderers->add(new DateTimeRenderer());
-        $this->renderers->add(new HtmlRenderer());
-        $this->renderers->add(new IdentifierRenderer($links));
-        $this->renderers->add(new FileRenderer());
-        $this->renderers->add(new ArrayRenderer($this->renderers));
-        $this->renderers->add(new ObjectRenderer($this->renderers, $this->types, $links));
-
-        return $this;
-    }
-
-    private function initCliFields(callable $read) {
-        $this->fields->add(new CliPrimitiveField());
-        $this->fields->add(new CliBooleanField());
-        $this->fields->add(new CliFileField());
-        $this->fields->add(new CliHtmlField($read));
-        $this->fields->add(new CliDateTimeField());
-        $this->fields->add(new CliArrayField($this->fields, $read));
-        $this->fields->add(new CliNullableField($this->fields, $read));
-        $this->fields->add(new CliObjectField($this->types, $this->fields, $read));
-        $this->fields->add(new CliMultiField($this->fields, $read));
-        $this->fields->add(new CliIdentifierField($this->fields));
-        $this->fields->add(new CliEnumerationField($this->fields));
-
-        return $this;
-    }
-
-    private function initCliRenderers() {
-        $this->renderers->add(new CliBooleanRenderer());
-        $this->renderers->add(new CliPrimitiveRenderer());
-        $this->renderers->add(new CliDateTimeRenderer());
-        $this->renderers->add(new CliHtmlRenderer());
-        $this->renderers->add(new CliIdentifierRenderer());
-        $this->renderers->add(new CliFileRenderer(''));
-        $this->renderers->add(new CliArrayRenderer($this->renderers));
-        $this->renderers->add(new CliObjectRenderer($this->renderers, $this->types));
         return $this;
     }
 

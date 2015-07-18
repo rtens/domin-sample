@@ -14,4 +14,4 @@ $write = function ($string) {
     echo $string;
 };
 
-CliApplication::run(Admin::initCli(__DIR__ . '/data', $read), $read, $write);
+CliApplication::run(Admin::initCli(__DIR__ . '/data'), $read, $write);
