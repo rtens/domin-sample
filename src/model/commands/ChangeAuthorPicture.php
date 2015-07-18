@@ -10,7 +10,7 @@ class ChangeAuthorPicture {
     private $picture;
 
     /**
-     * @param string $email
+     * @param \rtens\blog\model\Author-ID $email
      * @param File $picture
      */
     function __construct($email, $picture) {
@@ -18,16 +18,10 @@ class ChangeAuthorPicture {
         $this->picture = $picture;
     }
 
-    /**
-     * @return string
-     */
     public function getEmail() {
         return $this->email;
     }
 
-    /**
-     * @return File
-     */
     public function getPicture() {
         return $this->picture;
     }

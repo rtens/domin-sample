@@ -12,7 +12,7 @@ class UpdatePost implements PostCommand {
     private $text;
 
     /**
-     * @param string $id
+     * @param \rtens\blog\model\Post-ID $id
      * @param string $title
      * @param Html $text
      */
@@ -22,23 +22,14 @@ class UpdatePost implements PostCommand {
         $this->title = $title;
     }
 
-    /**
-     * @return string
-     */
     public function getId() {
         return $this->id;
     }
 
-    /**
-     * @return \rtens\domin\parameters\Html
-     */
     public function getText() {
         return $this->text;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle() {
         return $this->title;
     }

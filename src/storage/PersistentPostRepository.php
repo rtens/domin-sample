@@ -18,6 +18,9 @@ class PersistentPostRepository implements PostRepository {
         $this->store->create($post, $post->getId());
     }
 
+    /**
+     * @return array|Post[]
+     */
     public function readAll() {
         return array_map(function ($key) {
             return $this->store->read($key);

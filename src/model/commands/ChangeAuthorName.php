@@ -8,7 +8,7 @@ class ChangeAuthorName {
     private $name;
 
     /**
-     * @param string $email
+     * @param \rtens\blog\model\Author-ID $email
      * @param string $name
      */
     function __construct($email, $name) {
@@ -16,16 +16,10 @@ class ChangeAuthorName {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
     public function getEmail() {
         return $this->email;
     }
 
-    /**
-     * @return string
-     */
     public function getName() {
         return $this->name;
     }

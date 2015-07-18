@@ -42,4 +42,4 @@ class RegisterAuthor {
     public function getPicture() {
         return $this->picture;
     }
-} 
+}

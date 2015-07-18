@@ -8,7 +8,7 @@ class ChangePostTags {
     private $tags;
 
     /**
-     * @param string $id
+     * @param \rtens\blog\model\Post-ID $id
      * @param array|string[] $tags
      */
     function __construct($id, $tags) {
@@ -16,16 +16,10 @@ class ChangePostTags {
         $this->tags = $tags;
     }
 
-    /**
-     * @return string
-     */
     public function getId() {
         return $this->id;
     }
 
-    /**
-     * @return array|string[]
-     */
     public function getTags() {
         return $this->tags;
     }

@@ -1,6 +1,7 @@
 <?php
 namespace rtens\blog\model\commands;
 
+use rtens\blog\model\Author;
 use rtens\domin\parameters\Html;
 
 class WritePost {
@@ -15,17 +16,14 @@ class WritePost {
 
     private $published;
 
-    /** @var \DateTime */
-    public $ignored;
-
     /**
-     * @param string $author
+     * @param Author-ID $author
      * @param string $title
      * @param Html $text
      * @param array|string[] $tags
-     * @param bool $published
+     * @param null|\DateTime $published
      */
-    function __construct($author, $title, $text, $tags = [], $published = true) {
+    function __construct($author, $title, $text, $tags = [], \DateTime $published = null) {
         $this->author = $author;
         $this->tags = $tags;
         $this->text = $text;
@@ -34,7 +32,7 @@ class WritePost {
     }
 
     /**
-     * @return string
+     * @return Author-ID
      */
     public function getAuthor() {
         return $this->author;
@@ -62,9 +60,9 @@ class WritePost {
     }
 
     /**
-     * @return boolean
+     * @return \DateTime|null
      */
-    public function isPublished() {
+    public function getPublished() {
         return $this->published;
     }
 } 

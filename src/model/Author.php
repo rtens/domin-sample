@@ -12,7 +12,7 @@ class Author {
     /** @var string */
     protected $name;
 
-    /** @var array|string[] */
+    /** @var null|array|string[] */
     protected $picture;
 
     /**
@@ -41,14 +41,14 @@ class Author {
     }
 
     /**
-     * @return File
+     * @return File|null
      */
     public function getPicture() {
-        return new MemoryFile(
+        return $this->picture ? new MemoryFile(
             $this->picture['name'],
             $this->picture['type'],
             base64_decode($this->picture['data'])
-        );
+        ) : null;
     }
 
     /**
@@ -59,14 +59,14 @@ class Author {
     }
 
     /**
-     * @param File $picture
+     * @param null|File $picture
      */
-    public function setPicture(File $picture) {
-        $this->picture = [
+    public function setPicture(File $picture = null) {
+        $this->picture = $picture ? [
             'name' => $picture->getName(),
             'type' => $picture->getType(),
             'data' => base64_encode($picture->getContent())
-        ];
+        ] : null;
     }
 
 }

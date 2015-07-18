@@ -4,18 +4,22 @@ namespace rtens\blog\model\commands;
 class PublishPost implements PostCommand {
 
     private $id;
+    private $publish;
 
     /**
-     * @param string $id
+     * @param \rtens\blog\model\Post-ID $id
+     * @param \DateTime $publish
      */
-    function __construct($id) {
+    function __construct($id, \DateTime $publish) {
         $this->id = $id;
+        $this->publish = $publish;
     }
 
-    /**
-     * @return string
-     */
     public function getId() {
         return $this->id;
+    }
+
+    public function getPublish() {
+        return $this->publish;
     }
 }

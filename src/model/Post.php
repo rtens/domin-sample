@@ -2,6 +2,7 @@
 namespace rtens\blog\model;
 
 use rtens\domin\parameters\Html;
+use rtens\domin\reflection\Identifier;
 
 class Post {
 
@@ -23,8 +24,8 @@ class Post {
     /** @var null|\DateTime */
     protected $updated = null;
 
-    /** @var boolean */
-    protected $published = false;
+    /** @var null|\DateTime */
+    protected $published;
 
     /** @var array|string[] */
     protected $tags = [];
@@ -51,10 +52,10 @@ class Post {
     }
 
     /**
-     * @return string
+     * @return Identifier
      */
     public function getAuthor() {
-        return $this->author;
+        return new Identifier(Author::class, $this->author);
     }
 
     /**
@@ -72,10 +73,17 @@ class Post {
     }
 
     /**
+     * @return \DateTime|null
+     */
+    public function getPublishDate() {
+        return $this->published;
+    }
+
+    /**
      * @return boolean
      */
     public function isPublished() {
-        return $this->published;
+        return $this->published && $this->published < new \DateTime();
     }
 
     /**
@@ -116,7 +124,7 @@ class Post {
     }
 
     /**
-     * @param boolean $published
+     * @param null|\DateTime $published
      */
     public function setPublished($published) {
         $this->published = $published;

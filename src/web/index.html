@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>a blog</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container">
+    <h1 class="page-header clearfix">
+
+        <small>
+        <nav>
+            <ul class="nav nav-pills pull-right">
+                <li role="presentation"><a href="admin/">Admin</a></li>
+            </ul>
+        </nav>
+        </small>
+
+
+        a blog
+    </h1>
+
+    <div class="jumbotron">
+        <p class="lead">
+            This website has been created to showcase <a href="http://github.com/rtens/domin">domin</a>,
+            a <a href="http://c2.com/cgi/wiki?CommandObject">Command Object</a>-based user interface
+            generator. Feel free to play around in the <a href="admin/">admin area</a>.
+        </p>
+        <p><a class="btn btn-lg btn-success" href="http://github.com/rtens/domin-sample" role="button">Check it out on github</a></p>
+    </div>
+
+    <? foreach ($posts as $post) { ?>
+    <h2><?= $post[title] ?> <small><?= $post[author][name] ?></small></h2>
+    <h4><?= $post[date] ?></h4>
+
+    <?= $post[content] ?>
+
+    <hr/>
+    <? } ?>
+
+    <footer class="footer">
+        <p>&copy; rtens 2015</p>
+    </footer>
+
+</div>
+
+</body>
+</html>

@@ -6,12 +6,15 @@ use rtens\blog\model\commands\ChangeAuthorName;
 use rtens\blog\model\commands\ChangeAuthorPicture;
 use rtens\blog\model\commands\ChangePostTags;
 use rtens\blog\model\commands\DeletePost;
+use rtens\blog\model\commands\DemoAction;
 use rtens\blog\model\commands\PublishPost;
 use rtens\blog\model\commands\RegisterAuthor;
-use rtens\blog\model\commands\UnPublishPost;
+use rtens\blog\model\commands\NotPublishPost;
 use rtens\blog\model\commands\UpdatePost;
 use rtens\blog\model\commands\WritePost;
 use rtens\blog\model\Post;
+use rtens\blog\model\queries\ListPosts;
+use rtens\blog\model\queries\ShowAuthor;
 use rtens\blog\model\queries\ShowPost;
 use rtens\blog\model\repositories\AuthorRepository;
 use rtens\blog\model\repositories\PostRepository;
@@ -27,6 +30,10 @@ class Application {
     function __construct(AuthorRepository $authors, PostRepository $posts) {
         $this->authors = $authors;
         $this->posts = $posts;
+    }
+
+    public function handleDemoAction(DemoAction $demo) {
+        return $demo;
     }
 
     public function handleListAuthors() {
@@ -71,19 +78,25 @@ class Application {
             $author->getEmail(),
             $command->getTitle(),
             $command->getText());
-        $post->setPublished($command->isPublished());
+        $post->setPublished($command->getPublished());
         $post->setTags($command->getTags());
         $this->posts->create($post);
 
         return $post;
     }
 
-    public function handleListPosts() {
-        return $this->posts->readAll();
+    public function handleListPosts(ListPosts $command) {
+        return array_filter($this->posts->readAll(), function (Post $post) use ($command) {
+            return !$command->getAuthor() || $post->getAuthor()->getId() == $command->getAuthor();
+        });
     }
 
     public function handleShowPost(ShowPost $command) {
         return $this->posts->read($command->getId());
+    }
+
+    public function handleShowAuthor(ShowAuthor $command) {
+        return $this->authors->read($command->getEmail());
     }
 
     public function handleUpdatePost(UpdatePost $command) {
@@ -104,13 +117,13 @@ class Application {
 
     public function handlePublishPost(PublishPost $command) {
         $post = $this->posts->read($command->getId());
-        $post->setPublished(true);
+        $post->setPublished($command->getPublish());
         $this->posts->update($post);
     }
 
-    public function handleUnPublishPost(UnPublishPost $command) {
+    public function handleNotPublishPost(NotPublishPost $command) {
         $post = $this->posts->read($command->getId());
-        $post->setPublished(false);
+        $post->setPublished(null);
         $this->posts->update($post);
     }
 
@@ -124,5 +137,19 @@ class Application {
         $post = $this->posts->read($parameters['id']);
         $parameters['tags'] = $post->getTags();
         return $parameters;
+    }
+
+    public function getAuthor($email) {
+        return $this->authors->read($email);
+    }
+
+    public function getPublishedPosts() {
+        $published = array_filter($this->posts->readAll(), function (Post $post) {
+            return $post->isPublished();
+        });
+        usort($published, function (Post $a, Post $b) {
+            return $a->getDate() < $b->getDate() ? 1 : -1;
+        });
+        return $published;
     }
 } 
