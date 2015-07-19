@@ -1,13 +1,11 @@
 <?php
-namespace rtens\blog\admin;
+namespace rtens\blog;
 
-use rtens\blog\Application;
 use rtens\blog\model\Author;
-use rtens\blog\model\commands\ChangeAuthorName;
-use rtens\blog\model\commands\ChangePostTags;
-use rtens\blog\model\commands\DeletePost;
-use rtens\blog\model\commands\UpdatePost;
-use rtens\blog\model\commands\WritePost;
+use rtens\blog\model\commands\post\ChangePostTags;
+use rtens\blog\model\commands\post\DeletePost;
+use rtens\blog\model\commands\post\UpdatePost;
+use rtens\blog\model\commands\post\WritePost;
 use rtens\blog\model\Post;
 use rtens\blog\storage\PersistentAuthorRepository;
 use rtens\blog\storage\PersistentPostRepository;
@@ -15,8 +13,10 @@ use rtens\domin\ActionRegistry;
 use rtens\domin\delivery\FieldRegistry;
 use rtens\domin\delivery\RendererRegistry;
 use rtens\domin\execution\RedirectResult;
+use rtens\domin\reflection\GenericMethodAction;
 use rtens\domin\reflection\GenericObjectAction;
 use rtens\domin\reflection\IdentifiersProvider;
+use rtens\domin\reflection\MethodActionGenerator;
 use rtens\domin\reflection\ObjectActionGenerator;
 use rtens\domin\reflection\TypeFactory;
 use rtens\domin\web\menu\Menu;
@@ -57,7 +57,8 @@ class Admin {
 
         $this->authors = new PersistentAuthorRepository($storageDir);
         $this->posts = new PersistentPostRepository($storageDir);
-        $this->app = $factory->setSingleton(new Application($this->authors, $this->posts));
+        $this->postService = $factory->setSingleton(new PostService($this->authors, $this->posts));
+        $this->authorService = $factory->setSingleton(new AuthorService($this->authors));
 
         $this->actions = $factory->setSingleton(new ActionRegistry());
         $this->fields = $factory->setSingleton(new FieldRegistry());
@@ -66,15 +67,21 @@ class Admin {
     }
 
     private function initActions() {
+        $this->initPostActions();
+        $this->initAuthorActions();
+
+        return $this;
+    }
+
+    private function initPostActions() {
         $execute = function ($object) {
             $methodName = 'handle' . (new \ReflectionClass($object))->getShortName();
-            return call_user_func([$this->app, $methodName], $object);
+            return call_user_func([$this->postService, $methodName], $object);
         };
 
         (new ObjectActionGenerator($this->actions, $this->types))
-            ->fromFolder(__DIR__ . '/../model/commands/demo', $execute)
-            ->fromFolder(__DIR__ . '/../model/queries', $execute)
-            ->fromFolder(__DIR__ . '/../model/commands', $execute)
+            ->fromFolder(__DIR__ . '/model/commands/demo', $execute)
+            ->fromFolder(__DIR__ . '/model/commands/post', $execute)
             ->configure(WritePost::class, function (GenericObjectAction $action) {
                 $action->setAfterExecute(function (Post $post) {
                     return new RedirectResult('showPost', ['id' => $post->getId()]);
@@ -83,15 +90,6 @@ class Admin {
             ->configure(DeletePost::class, function (GenericObjectAction $action) {
                 $action->setAfterExecute(function () {
                     return new RedirectResult('listPosts');
-                });
-            })
-            ->configure(ChangeAuthorName::class, function (GenericObjectAction $action) {
-                $action->setFill(function ($parameters) {
-                    if ($parameters['email']) {
-                        $author = $this->authors->read($parameters['email']);
-                        $parameters['name'] = $author->getName();
-                    }
-                    return $parameters;
                 });
             })
             ->configure(UpdatePost::class, function (GenericObjectAction $action) {
@@ -111,20 +109,37 @@ class Admin {
                     return $parameters;
                 });
             });
+    }
 
-        return $this;
+    private function initAuthorActions() {
+        (new MethodActionGenerator($this->actions, $this->types))
+            ->fromObject($this->authorService)
+            ->configure($this->authorService, 'changeAuthorName', function (GenericMethodAction $action) {
+                $action->setFill(function ($parameters) {
+                    if ($parameters['email']) {
+                        $author = $this->authors->read($parameters['email']);
+                        $parameters['name'] = $author->getName();
+                    }
+                    return $parameters;
+                });
+            })
+            ->configure($this->authorService, 'registerAuthor', function (GenericMethodAction $action) {
+                $action->setAfterExecute(function (Author $author) {
+                    $actionId = MethodActionGenerator::actionId(AuthorService::class, 'showAuthor');
+                    return new RedirectResult($actionId, ['email' => $author->getEmail()]);
+                });
+            });
     }
 
     private function initLinks(LinkRegistry $links) {
-        $authorParameters = function (Author $author) {
-            return ['email' => $author->getEmail()];
-        };
         $postParameters = function (Post $post) {
             return ['id' => $post->getId()];
         };
-        $links->add(new ClassLink(Author::class, 'showAuthor', $authorParameters));
-        $links->add(new ClassLink(Author::class, 'changeAuthorPicture', $authorParameters));
-        $links->add(new ClassLink(Author::class, 'changeAuthorName', $authorParameters));
+
+        $links->add($this->makeAuthorLink('showAuthor'));
+        $links->add($this->makeAuthorLink('changeAuthorPicture'));
+        $links->add($this->makeAuthorLink('changeAuthorName'));
+
         $links->add(new ClassLink(Author::class, 'listPosts', function (Author $author) {
             return ['author' => $author->getEmail()];
         }));
@@ -148,14 +163,22 @@ class Admin {
         return $this;
     }
 
+    private function makeAuthorLink($method) {
+        $actionId = MethodActionGenerator::actionId(AuthorService::class, $method);
+        return (new ClassLink(Author::class, $actionId, function (Author $author) {
+            return ['email' => $author->getEmail()];
+        }))->setCaption($this->actions->getAction($actionId)->caption());
+    }
+
     private function initMenu() {
         $menu = $this->factory->setSingleton(new Menu($this->actions));
 
         $menu->add(new MenuItem('writePost'));
         $menu->add(new MenuItem('listPosts'));
         $menu->addGroup((new MenuGroup('Authors'))
-            ->add(new MenuItem('registerAuthor'))
-            ->add(new MenuItem('listAuthors')));
+            ->add(new MenuItem(MethodActionGenerator::actionId(AuthorService::class, 'registerAuthor')))
+            ->add(new MenuItem(MethodActionGenerator::actionId(AuthorService::class, 'listAuthors')))
+        );
 
         return $this;
     }

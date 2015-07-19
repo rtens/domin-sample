@@ -1,6 +1,6 @@
 <?php
 
-use rtens\blog\admin\Admin;
+use rtens\blog\Admin;
 use rtens\domin\cli\CliApplication;
 
 require_once __DIR__ . '/vendor/autoload.php';

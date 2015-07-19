@@ -1,25 +1,20 @@
 <?php
 namespace rtens\blog;
 
-use rtens\blog\model\Author;
-use rtens\blog\model\commands\ChangeAuthorName;
-use rtens\blog\model\commands\ChangeAuthorPicture;
-use rtens\blog\model\commands\ChangePostTags;
-use rtens\blog\model\commands\DeletePost;
+use rtens\blog\model\commands\post\ChangePostTags;
+use rtens\blog\model\commands\post\DeletePost;
 use rtens\blog\model\commands\demo\DemoAction;
-use rtens\blog\model\commands\PublishPost;
-use rtens\blog\model\commands\RegisterAuthor;
-use rtens\blog\model\commands\UnpublishPost;
-use rtens\blog\model\commands\UpdatePost;
-use rtens\blog\model\commands\WritePost;
+use rtens\blog\model\commands\post\PublishPost;
+use rtens\blog\model\commands\post\UnpublishPost;
+use rtens\blog\model\commands\post\UpdatePost;
+use rtens\blog\model\commands\post\WritePost;
 use rtens\blog\model\Post;
-use rtens\blog\model\queries\ListPosts;
-use rtens\blog\model\queries\ShowAuthor;
-use rtens\blog\model\queries\ShowPost;
+use rtens\blog\model\commands\post\ListPosts;
+use rtens\blog\model\commands\post\ShowPost;
 use rtens\blog\model\repositories\AuthorRepository;
 use rtens\blog\model\repositories\PostRepository;
 
-class Application {
+class PostService {
 
     /** @var AuthorRepository */
     private $authors;
@@ -34,29 +29,6 @@ class Application {
 
     public function handleDemoAction(DemoAction $demo) {
         return $demo;
-    }
-
-    public function handleListAuthors() {
-        return $this->authors->readAll();
-    }
-
-    public function handleRegisterAuthor(RegisterAuthor $command) {
-        $this->authors->create(new Author(
-            $command->getEmail(),
-            $command->getName(),
-            $command->getPicture()));
-    }
-
-    public function handleChangeAuthorName(ChangeAuthorName $command) {
-        $author = $this->authors->read($command->getEmail());
-        $author->setName($command->getName());
-        $this->authors->update($author);
-    }
-
-    public function handleChangeAuthorPicture(ChangeAuthorPicture $command) {
-        $author = $this->authors->read($command->getEmail());
-        $author->setPicture($command->getPicture());
-        $this->authors->update($author);
     }
 
     public function handleDeletePost(DeletePost $command) {
@@ -87,10 +59,6 @@ class Application {
         return $this->posts->read($command->getId());
     }
 
-    public function handleShowAuthor(ShowAuthor $command) {
-        return $this->authors->read($command->getEmail());
-    }
-
     public function handleUpdatePost(UpdatePost $command) {
         $post = $this->posts->read($command->getId());
         $post->setTitle($command->getTitle());
@@ -114,10 +82,6 @@ class Application {
         $post = $this->posts->read($command->getId());
         $post->setTags($command->getTags());
         $this->posts->update($post);
-    }
-
-    public function getAuthor($email) {
-        return $this->authors->read($email);
     }
 
     public function getPublishedPosts() {

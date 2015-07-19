@@ -57,12 +57,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rtens/domin.git",
-                "reference": "4cb74abbad051e5cf00fe908d18ba69e715ab2e9"
+                "reference": "232e1f1b5fba758f98d89f7f2e7088d87bc01850"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rtens/domin/zipball/4cb74abbad051e5cf00fe908d18ba69e715ab2e9",
-                "reference": "4cb74abbad051e5cf00fe908d18ba69e715ab2e9",
+                "url": "https://api.github.com/repos/rtens/domin/zipball/232e1f1b5fba758f98d89f7f2e7088d87bc01850",
+                "reference": "232e1f1b5fba758f98d89f7f2e7088d87bc01850",
                 "shasum": ""
             },
             "require": {
@@ -99,7 +99,7 @@
                 "ddd",
                 "domain model"
             ],
-            "time": "2015-07-19 12:21:51"
+            "time": "2015-07-19 14:14:53"
         },
         {
             "name": "watoki/collections",
@@ -303,12 +303,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/watoki/reflect.git",
-                "reference": "a6ce78869acd1e091345fcabed33e95c6d083b0d"
+                "reference": "32223332069725dca92fec789d25a75667c34448"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/watoki/reflect/zipball/a6ce78869acd1e091345fcabed33e95c6d083b0d",
-                "reference": "a6ce78869acd1e091345fcabed33e95c6d083b0d",
+                "url": "https://api.github.com/repos/watoki/reflect/zipball/32223332069725dca92fec789d25a75667c34448",
+                "reference": "32223332069725dca92fec789d25a75667c34448",
                 "shasum": ""
             },
             "require": {
@@ -344,7 +344,7 @@
                 "type hints",
                 "watoki"
             ],
-            "time": "2015-07-18 16:26:14"
+            "time": "2015-07-19 13:05:54"
         },
         {
             "name": "watoki/smokey",

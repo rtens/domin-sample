@@ -1,5 +1,5 @@
 <?php
-namespace rtens\blog\model\commands;
+namespace rtens\blog\model\commands\post;
 
 class DeletePost {
 

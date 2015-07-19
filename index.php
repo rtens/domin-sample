@@ -1,6 +1,6 @@
 <?php
 
-use rtens\blog\admin\Admin;
+use rtens\blog\Admin;
 use rtens\blog\web\IndexResource;
 use watoki\curir\WebDelivery;
 

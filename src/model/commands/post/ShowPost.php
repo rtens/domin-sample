@@ -1,7 +1,7 @@
 <?php
-namespace rtens\blog\model\commands;
+namespace rtens\blog\model\commands\post;
 
-class UnpublishPost implements PostCommand {
+class ShowPost {
 
     private $id;
 

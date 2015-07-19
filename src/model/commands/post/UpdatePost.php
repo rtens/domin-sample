@@ -1,9 +1,9 @@
 <?php
-namespace rtens\blog\model\commands;
+namespace rtens\blog\model\commands\post;
 
 use rtens\domin\parameters\Html;
 
-class UpdatePost implements PostCommand {
+class UpdatePost implements \rtens\blog\model\commands\PostCommand {
 
     private $id;
 
