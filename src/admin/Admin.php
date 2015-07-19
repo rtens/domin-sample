@@ -4,27 +4,20 @@ namespace rtens\blog\admin;
 use rtens\blog\Application;
 use rtens\blog\model\Author;
 use rtens\blog\model\commands\ChangeAuthorName;
-use rtens\blog\model\commands\ChangeAuthorPicture;
 use rtens\blog\model\commands\ChangePostTags;
 use rtens\blog\model\commands\DeletePost;
-use rtens\blog\model\commands\DemoAction;
-use rtens\blog\model\commands\NotPublishPost;
-use rtens\blog\model\commands\PublishPost;
-use rtens\blog\model\commands\RegisterAuthor;
 use rtens\blog\model\commands\UpdatePost;
 use rtens\blog\model\commands\WritePost;
 use rtens\blog\model\Post;
-use rtens\blog\model\queries\ListAuthors;
-use rtens\blog\model\queries\ListPosts;
-use rtens\blog\model\queries\ShowAuthor;
-use rtens\blog\model\queries\ShowPost;
 use rtens\blog\storage\PersistentAuthorRepository;
 use rtens\blog\storage\PersistentPostRepository;
 use rtens\domin\ActionRegistry;
 use rtens\domin\delivery\FieldRegistry;
 use rtens\domin\delivery\RendererRegistry;
 use rtens\domin\execution\RedirectResult;
+use rtens\domin\reflection\GenericObjectAction;
 use rtens\domin\reflection\IdentifiersProvider;
+use rtens\domin\reflection\ObjectActionGenerator;
 use rtens\domin\reflection\TypeFactory;
 use rtens\domin\web\menu\Menu;
 use rtens\domin\web\menu\MenuGroup;
@@ -64,7 +57,7 @@ class Admin {
 
         $this->authors = new PersistentAuthorRepository($storageDir);
         $this->posts = new PersistentPostRepository($storageDir);
-        $this->handler = $factory->setSingleton(new Application($this->authors, $this->posts));
+        $this->app = $factory->setSingleton(new Application($this->authors, $this->posts));
 
         $this->actions = $factory->setSingleton(new ActionRegistry());
         $this->fields = $factory->setSingleton(new FieldRegistry());
@@ -73,35 +66,53 @@ class Admin {
     }
 
     private function initActions() {
-        $this->addCommand('demo', DemoAction::class);
-        /** @noinspection PhpUnusedParameterInspection */
-        $this->addCommand('writePost', WritePost::class)
-            ->setAfterExecuted(function ($command, Post $post) {
-                return new RedirectResult('showPost', ['id' => $post->getId()]);
+        $execute = function ($object) {
+            $methodName = 'handle' . (new \ReflectionClass($object))->getShortName();
+            return call_user_func([$this->app, $methodName], $object);
+        };
+
+        (new ObjectActionGenerator($this->actions, $this->types))
+            ->fromFolder(__DIR__ . '/../model/commands/demo', $execute)
+            ->fromFolder(__DIR__ . '/../model/queries', $execute)
+            ->fromFolder(__DIR__ . '/../model/commands', $execute)
+            ->configure(WritePost::class, function (GenericObjectAction $action) {
+                $action->setAfterExecute(function (Post $post) {
+                    return new RedirectResult('showPost', ['id' => $post->getId()]);
+                });
+            })
+            ->configure(DeletePost::class, function (GenericObjectAction $action) {
+                $action->setAfterExecute(function () {
+                    return new RedirectResult('listPosts');
+                });
+            })
+            ->configure(ChangeAuthorName::class, function (GenericObjectAction $action) {
+                $action->setFill(function ($parameters) {
+                    if ($parameters['email']) {
+                        $author = $this->authors->read($parameters['email']);
+                        $parameters['name'] = $author->getName();
+                    }
+                    return $parameters;
+                });
+            })
+            ->configure(UpdatePost::class, function (GenericObjectAction $action) {
+                $action->setFill(function ($parameters) {
+                    if ($parameters['id']) {
+                        $post = $this->posts->read($parameters['id']);
+                        $parameters['title'] = $post->getTitle();
+                        $parameters['text'] = $post->getText();
+                    }
+                    return $parameters;
+                });
+            })
+            ->configure(ChangePostTags::class, function (GenericObjectAction $action) {
+                $action->setFill(function ($parameters) {
+                    $post = $this->posts->read($parameters['id']);
+                    $parameters['tags'] = $post->getTags();
+                    return $parameters;
+                });
             });
-        $this->addCommand('listPosts', ListPosts::class);
-        $this->addCommand('registerAuthor', RegisterAuthor::class);
-        $this->addCommand('listAuthors', ListAuthors::class);
-        $this->addCommand('showPost', ShowPost::class);
-        $this->addCommand('updatePost', UpdatePost::class);
-        $this->addCommand('publishPost', PublishPost::class);
-        $this->addCommand('unpublishPost', NotPublishPost::class);
-        $this->addCommand('changeTags', ChangePostTags::class);
-        $this->addCommand('deletePost', DeletePost::class)
-            ->setAfterExecuted(function () {
-                return new RedirectResult('listPosts');
-            });
-        $this->addCommand('showAuthor', ShowAuthor::class);
-        $this->addCommand('changeAuthorPicture', ChangeAuthorPicture::class);
-        $this->addCommand('changeAuthorName', ChangeAuthorName::class);
 
         return $this;
-    }
-
-    private function addCommand($id, $class) {
-        $action = new CommandAction($class, $this->handler, $this->types);
-        $this->actions->add($id, $action);
-        return $action;
     }
 
     private function initLinks(LinkRegistry $links) {
@@ -118,7 +129,7 @@ class Admin {
             return ['author' => $author->getEmail()];
         }));
         $links->add(new ClassLink(Post::class, 'showPost', $postParameters));
-        $links->add(new ClassLink(Post::class, 'changeTags', $postParameters));
+        $links->add(new ClassLink(Post::class, 'changePostTags', $postParameters));
         $links->add(new ClassLink(Post::class, 'updatePost', $postParameters));
         $links->add((new ClassLink(Post::class, 'publishPost', $postParameters))
             ->setHandles(function ($post) {

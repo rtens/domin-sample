@@ -6,10 +6,10 @@ use rtens\blog\model\commands\ChangeAuthorName;
 use rtens\blog\model\commands\ChangeAuthorPicture;
 use rtens\blog\model\commands\ChangePostTags;
 use rtens\blog\model\commands\DeletePost;
-use rtens\blog\model\commands\DemoAction;
+use rtens\blog\model\commands\demo\DemoAction;
 use rtens\blog\model\commands\PublishPost;
 use rtens\blog\model\commands\RegisterAuthor;
-use rtens\blog\model\commands\NotPublishPost;
+use rtens\blog\model\commands\UnpublishPost;
 use rtens\blog\model\commands\UpdatePost;
 use rtens\blog\model\commands\WritePost;
 use rtens\blog\model\Post;
@@ -51,14 +51,6 @@ class Application {
         $author = $this->authors->read($command->getEmail());
         $author->setName($command->getName());
         $this->authors->update($author);
-    }
-
-    public function fillChangeAuthorName($parameters) {
-        if ($parameters['email']) {
-            $author = $this->authors->read($parameters['email']);
-            $parameters['name'] = $author->getName();
-        }
-        return $parameters;
     }
 
     public function handleChangeAuthorPicture(ChangeAuthorPicture $command) {
@@ -106,22 +98,13 @@ class Application {
         $this->posts->update($post);
     }
 
-    public function fillUpdatePost($parameters) {
-        if ($parameters['id']) {
-            $post = $this->posts->read($parameters['id']);
-            $parameters['title'] = $post->getTitle();
-            $parameters['text'] = $post->getText();
-        }
-        return $parameters;
-    }
-
     public function handlePublishPost(PublishPost $command) {
         $post = $this->posts->read($command->getId());
         $post->setPublished($command->getPublish());
         $this->posts->update($post);
     }
 
-    public function handleNotPublishPost(NotPublishPost $command) {
+    public function handleUnpublishPost(UnpublishPost $command) {
         $post = $this->posts->read($command->getId());
         $post->setPublished(null);
         $this->posts->update($post);
@@ -131,12 +114,6 @@ class Application {
         $post = $this->posts->read($command->getId());
         $post->setTags($command->getTags());
         $this->posts->update($post);
-    }
-
-    public function fillChangePostTags(array $parameters) {
-        $post = $this->posts->read($parameters['id']);
-        $parameters['tags'] = $post->getTags();
-        return $parameters;
     }
 
     public function getAuthor($email) {

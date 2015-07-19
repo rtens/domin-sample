@@ -1,5 +1,5 @@
 <?php
-namespace rtens\blog\model\commands;
+namespace rtens\blog\model\commands\demo;
 
 class DemoAction {
 
@@ -34,13 +34,13 @@ class DemoAction {
     /** @var array|string[] */
     public $array;
 
-    /** @var DemoFoo */
+    /** @var inner\DemoFoo */
     public $object;
 
-    /** @var DemoBar[] */
+    /** @var inner\DemoBar[] */
     public $objectArray;
 
-    /** @var string|DemoFoo|DemoBar */
+    /** @var string|inner\DemoFoo|inner\DemoBar */
     public $multi;
 
     /** @var \rtens\blog\model\Author-ID */
@@ -52,22 +52,4 @@ class DemoAction {
     public function __construct($required) {
 
     }
-}
-
-class DemoFoo {
-
-    /** @var string */
-    public $foo;
-
-    /** @var null|DemoBar */
-    public $bar;
-}
-
-class DemoBar {
-
-    /** @var string */
-    public $foo;
-
-    /** @var string */
-    public $bar;
 }

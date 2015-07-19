@@ -57,12 +57,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rtens/domin.git",
-                "reference": "b9b9636ddd39531f3d24e50e647ab7f5d70d12aa"
+                "reference": "4cb74abbad051e5cf00fe908d18ba69e715ab2e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rtens/domin/zipball/b9b9636ddd39531f3d24e50e647ab7f5d70d12aa",
-                "reference": "b9b9636ddd39531f3d24e50e647ab7f5d70d12aa",
+                "url": "https://api.github.com/repos/rtens/domin/zipball/4cb74abbad051e5cf00fe908d18ba69e715ab2e9",
+                "reference": "4cb74abbad051e5cf00fe908d18ba69e715ab2e9",
                 "shasum": ""
             },
             "require": {
@@ -79,7 +79,7 @@
                     "rtens\\domin\\": "src/"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -99,7 +99,7 @@
                 "ddd",
                 "domain model"
             ],
-            "time": "2015-07-19 01:09:18"
+            "time": "2015-07-19 12:21:51"
         },
         {
             "name": "watoki/collections",
