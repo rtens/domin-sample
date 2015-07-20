@@ -10,8 +10,7 @@ use rtens\blog\model\Post;
 use rtens\blog\storage\PersistentAuthorRepository;
 use rtens\blog\storage\PersistentPostRepository;
 use rtens\domin\ActionRegistry;
-use rtens\domin\delivery\FieldRegistry;
-use rtens\domin\delivery\RendererRegistry;
+use rtens\domin\cli\CliApplication;
 use rtens\domin\execution\RedirectResult;
 use rtens\domin\reflection\GenericMethodAction;
 use rtens\domin\reflection\GenericObjectAction;
@@ -25,31 +24,22 @@ use rtens\domin\web\menu\MenuItem;
 use rtens\domin\web\renderers\link\ClassLink;
 use rtens\domin\web\renderers\link\IdentifierLink;
 use rtens\domin\web\renderers\link\LinkRegistry;
+use rtens\domin\web\WebApplication;
 use watoki\factory\Factory;
 
 class Admin {
 
-    public static function initWeb($storageDir, Factory $factory = null) {
-        $factory = $factory ?: new Factory();
-        $identifiers = $factory->setSingleton(new IdentifiersProvider());
-        $links = $factory->setSingleton(new LinkRegistry());
-
-        (new Admin($storageDir, $factory))
-            ->initActions()
-            ->initLinks($links)
-            ->initIdentifierProviders($identifiers)
-            ->initMenu();
-
-        return $factory;
+    public static function initWeb(WebApplication $app, $storageDir) {
+        (new Admin($storageDir, $app->factory))
+            ->initActions($app->actions, $app->types)
+            ->initLinks($app->links, $app->actions)
+            ->initIdentifierProviders($app->identifiers)
+            ->initMenu($app->menu);
     }
 
-    public static function initCli($storageDir, Factory $factory = null) {
-        $factory = $factory ?: new Factory();
-
-        (new Admin($storageDir, $factory))
-            ->initActions();
-
-        return $factory;
+    public static function initCli(CliApplication $app, $storageDir) {
+        (new Admin($storageDir, $app->factory))
+            ->initActions($app->actions, $app->types);
     }
 
     public function __construct($storageDir, Factory $factory) {
@@ -59,27 +49,22 @@ class Admin {
         $this->posts = new PersistentPostRepository($storageDir);
         $this->postService = $factory->setSingleton(new PostService($this->authors, $this->posts));
         $this->authorService = $factory->setSingleton(new AuthorService($this->authors));
-
-        $this->actions = $factory->setSingleton(new ActionRegistry());
-        $this->fields = $factory->setSingleton(new FieldRegistry());
-        $this->renderers = $factory->setSingleton(new RendererRegistry());
-        $this->types = new TypeFactory();
     }
 
-    private function initActions() {
-        $this->initPostActions();
-        $this->initAuthorActions();
+    private function initActions(ActionRegistry $actions, TypeFactory $types) {
+        $this->initPostActions($actions, $types);
+        $this->initAuthorActions($actions, $types);
 
         return $this;
     }
 
-    private function initPostActions() {
+    private function initPostActions(ActionRegistry $actions, TypeFactory $types) {
         $execute = function ($object) {
             $methodName = 'handle' . (new \ReflectionClass($object))->getShortName();
             return call_user_func([$this->postService, $methodName], $object);
         };
 
-        (new ObjectActionGenerator($this->actions, $this->types))
+        (new ObjectActionGenerator($actions, $types))
             ->fromFolder(__DIR__ . '/model/commands/demo', $execute)
             ->fromFolder(__DIR__ . '/model/commands/post', $execute)
             ->configure(WritePost::class, function (GenericObjectAction $action) {
@@ -113,8 +98,8 @@ class Admin {
             });
     }
 
-    private function initAuthorActions() {
-        (new MethodActionGenerator($this->actions, $this->types))
+    private function initAuthorActions(ActionRegistry $actions, TypeFactory $types) {
+        (new MethodActionGenerator($actions, $types))
             ->fromObject($this->authorService)
             ->configure($this->authorService, 'changeAuthorName', function (GenericMethodAction $action) {
                 $action->setFill(function ($parameters) {
@@ -133,14 +118,14 @@ class Admin {
             });
     }
 
-    private function initLinks(LinkRegistry $links) {
+    private function initLinks(LinkRegistry $links, ActionRegistry $actions) {
         $postParameters = function (Post $post) {
             return ['id' => $post->getId()];
         };
 
-        $links->add($this->makeAuthorLink('showAuthor'));
-        $links->add($this->makeAuthorLink('changeAuthorPicture'));
-        $links->add($this->makeAuthorLink('changeAuthorName'));
+        $links->add($this->makeAuthorLink('showAuthor', $actions));
+        $links->add($this->makeAuthorLink('changeAuthorPicture', $actions));
+        $links->add($this->makeAuthorLink('changeAuthorName', $actions));
 
         $links->add(new ClassLink(Author::class, 'listPosts', function (Author $author) {
             return ['author' => $author->getEmail()];
@@ -165,16 +150,15 @@ class Admin {
         return $this;
     }
 
-    private function makeAuthorLink($method) {
+    private function makeAuthorLink($method, ActionRegistry $actions) {
         $actionId = MethodActionGenerator::actionId(AuthorService::class, $method);
+
         return (new ClassLink(Author::class, $actionId, function (Author $author) {
             return ['email' => $author->getEmail()];
-        }))->setCaption($this->actions->getAction($actionId)->caption());
+        }))->setCaption($actions->getAction($actionId)->caption());
     }
 
-    private function initMenu() {
-        $menu = $this->factory->setSingleton(new Menu($this->actions));
-
+    private function initMenu(Menu $menu) {
         $menu->add(new MenuItem('writePost'));
         $menu->add(new MenuItem('listPosts'));
         $menu->addGroup((new MenuGroup('Authors'))
