@@ -25,7 +25,7 @@ class DemoAction {
     /** @var \DateTime */
     public $dateTime;
 
-    /** @var null|\rtens\domin\parameters\File */
+    /** @var \rtens\domin\parameters\File */
     public $file;
 
     /** @var \rtens\domin\parameters\Html */
