@@ -94,7 +94,7 @@ class Admin {
             })
             ->configure(UpdatePost::class, function (GenericObjectAction $action) {
                 $action->setFill(function ($parameters) {
-                    if ($parameters['id']) {
+                    if ($parameters['id'] && empty($parameters['title'])) {
                         $post = $this->posts->read($parameters['id']);
                         $parameters['title'] = $post->getTitle();
                         $parameters['text'] = $post->getText();
@@ -105,7 +105,9 @@ class Admin {
             ->configure(ChangePostTags::class, function (GenericObjectAction $action) {
                 $action->setFill(function ($parameters) {
                     $post = $this->posts->read($parameters['id']);
-                    $parameters['tags'] = $post->getTags();
+                    if (empty($parameters['tags'])) {
+                        $parameters['tags'] = $post->getTags();
+                    }
                     return $parameters;
                 });
             });
