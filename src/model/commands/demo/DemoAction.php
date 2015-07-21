@@ -28,6 +28,9 @@ class DemoAction {
     /** @var \rtens\domin\parameters\File */
     public $file;
 
+    /** @var \rtens\domin\parameters\Image */
+    public $image;
+
     /** @var \rtens\domin\parameters\Html */
     public $html;
 

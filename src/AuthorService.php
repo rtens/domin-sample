@@ -4,6 +4,7 @@ namespace rtens\blog;
 use rtens\blog\model\Author;
 use rtens\blog\model\repositories\AuthorRepository;
 use rtens\domin\parameters\File;
+use rtens\domin\parameters\Image;
 
 class AuthorService {
 
@@ -21,14 +22,14 @@ class AuthorService {
     /**
      * @param string $email
      * @param string $name
-     * @param null|\rtens\domin\parameters\File $picture
+     * @param null|Image $picture
      * @return Author
      */
-    public function registerAuthor($email, $name, File $picture = null) {
+    public function registerAuthor($email, $name, Image $picture = null) {
         $author = new Author(
             $email,
             $name,
-            $picture);
+            $picture->getFile());
         $this->authors->create($author);
         return $author;
     }
@@ -45,11 +46,11 @@ class AuthorService {
 
     /**
      * @param Author-ID $email
-     * @param File $picture
+     * @param Image $picture
      */
-    public function changeAuthorPicture($email, File $picture) {
+    public function changeAuthorPicture($email, Image $picture) {
         $author = $this->authors->read($email);
-        $author->setPicture($picture);
+        $author->setPicture($picture->getFile());
         $this->authors->update($author);
     }
 
