@@ -144,7 +144,8 @@ class Admin {
         $links->add((new ClassLink(Post::class, 'deletePost', $postParameters))
             ->setConfirmation('Are you sure?'));
 
-        $links->add((new IdentifierLink(Author::class, MethodActionGenerator::actionId(AuthorService::class, 'showAuthor'), 'email')));
+        $links->add((new IdentifierLink(Author::class, MethodActionGenerator::actionId(AuthorService::class, 'showAuthor'), 'email'))
+            ->setCaption('Show Author'));
         $links->add((new IdentifierLink(Author::class, 'listPosts', 'author')));
 
         return $this;
