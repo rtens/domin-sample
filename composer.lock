@@ -7,6 +7,60 @@
     "hash": "88bab47450cd79652f97dabfdf2d476b",
     "packages": [
         {
+            "name": "mobiledetect/mobiledetectlib",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/serbanghita/Mobile-Detect.git",
+                "reference": "6495567afe1486353bec82d6b2de6f98553d60a5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/6495567afe1486353bec82d6b2de6f98553d60a5",
+                "reference": "6495567afe1486353bec82d6b2de6f98553d60a5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.0.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "johnkary/phpunit-speedtrap": "~1.0@dev",
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "Mobile_Detect.php"
+                ],
+                "psr-0": {
+                    "Detection": "namespaced/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Serban Ghita",
+                    "email": "serbanghita@gmail.com",
+                    "homepage": "http://mobiledetect.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Mobile_Detect is a lightweight PHP class for detecting mobile devices. It uses the User-Agent string combined with specific HTTP headers to detect the mobile environment.",
+            "homepage": "https://github.com/serbanghita/Mobile-Detect",
+            "keywords": [
+                "detect mobile devices",
+                "mobile",
+                "mobile detect",
+                "mobile detector",
+                "php mobile detect"
+            ],
+            "time": "2015-06-18 09:43:23"
+        },
+        {
             "name": "nikic/php-parser",
             "version": "1.x-dev",
             "source": {
@@ -57,15 +111,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rtens/domin.git",
-                "reference": "30c48f3900b02f5c5dfde4200be3902b6bb1a71f"
+                "reference": "74c52887852120b00b6e4ab62bdb6b9fe2aaf101"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rtens/domin/zipball/30c48f3900b02f5c5dfde4200be3902b6bb1a71f",
-                "reference": "30c48f3900b02f5c5dfde4200be3902b6bb1a71f",
+                "url": "https://api.github.com/repos/rtens/domin/zipball/74c52887852120b00b6e4ab62bdb6b9fe2aaf101",
+                "reference": "74c52887852120b00b6e4ab62bdb6b9fe2aaf101",
                 "shasum": ""
             },
             "require": {
+                "mobiledetect/mobiledetectlib": "dev-master",
                 "watoki/curir": "dev-master",
                 "watoki/reflect": "dev-master"
             },
@@ -99,7 +154,7 @@
                 "ddd",
                 "domain model"
             ],
-            "time": "2015-07-23 17:40:22"
+            "time": "2015-07-23 17:50:34"
         },
         {
             "name": "watoki/collections",
