@@ -2,7 +2,7 @@
 
 use rtens\blog\Admin;
 use rtens\blog\web\IndexResource;
-use rtens\domin\web\WebApplication;
+use rtens\domin\delivery\web\WebApplication;
 use watoki\curir\WebDelivery;
 
 require_once __DIR__ . '/vendor/autoload.php';

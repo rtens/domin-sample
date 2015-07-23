@@ -2,7 +2,7 @@
 namespace rtens\blog\model;
 
 use rtens\domin\parameters\Html;
-use rtens\domin\reflection\Identifier;
+use rtens\domin\parameters\Identifier;
 
 class Post {
 

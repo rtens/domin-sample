@@ -16,7 +16,7 @@ class DemoAction {
     /** @var boolean */
     public $boolean = true;
 
-    /** @var self::OPTION_ */
+    /** @var self::OPTION_* */
     public $enumeration;
 
     /** @var null|string */
@@ -29,7 +29,7 @@ class DemoAction {
     public $file;
 
     /** @var \rtens\domin\parameters\Image */
-    public $image;
+    private $image;
 
     /** @var \rtens\domin\parameters\Html */
     public $html;
@@ -53,6 +53,16 @@ class DemoAction {
      * @param string $required
      */
     public function __construct($required) {
+    }
 
+    /**
+     * @return \rtens\domin\parameters\Image
+     */
+    public function getImage() {
+        return $this->image;
+    }
+
+    public function setImage(\rtens\domin\parameters\Image $image = null) {
+        $this->image = $image;
     }
 }

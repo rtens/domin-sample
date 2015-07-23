@@ -2,7 +2,7 @@
 namespace rtens\blog\model;
 
 use rtens\domin\parameters\File;
-use rtens\domin\parameters\MemoryFile;
+use rtens\domin\parameters\file\MemoryFile;
 
 class Author {
 
