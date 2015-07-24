@@ -29,7 +29,7 @@ class DemoAction {
     public $file;
 
     /** @var \rtens\domin\parameters\Image */
-    private $image;
+    public $image;
 
     /** @var \rtens\domin\parameters\Html */
     public $html;
@@ -53,16 +53,5 @@ class DemoAction {
      * @param string $required
      */
     public function __construct($required) {
-    }
-
-    /**
-     * @return \rtens\domin\parameters\Image
-     */
-    public function getImage() {
-        return $this->image;
-    }
-
-    public function setImage(\rtens\domin\parameters\Image $image = null) {
-        $this->image = $image;
     }
 }
