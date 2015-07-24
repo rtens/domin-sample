@@ -1,6 +1,6 @@
 {
   "require": {
-    "rtens/domin": "dev-master#dee1933476eac826993255e1bc8bccb66beefaa9"
+    "rtens/domin": "dev-master#3dfd3f612c59fda6a8588c9eaf1a7c4bef884be2"
   },
   "autoload": {
     "psr-4": {
