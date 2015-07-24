@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "44626dd6cca856d099d544a7c4b93343",
+    "hash": "b3fc793314c752e40691b15c6955d475",
     "packages": [
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -111,12 +111,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rtens/domin.git",
-                "reference": "6c3dbcccf31c33f563629f9d9061f5605c57bdbc"
+                "reference": "b354fa84f9a89b84a0b4be01179f374caa7fad32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rtens/domin/zipball/6bf70a66237862f91e06d65514480d3471bb18f4",
-                "reference": "6c3dbcccf31c33f563629f9d9061f5605c57bdbc",
+                "url": "https://api.github.com/repos/rtens/domin/zipball/631c64827c271d8cdef2420942cd875b5949d097",
+                "reference": "b354fa84f9a89b84a0b4be01179f374caa7fad32",
                 "shasum": ""
             },
             "require": {
@@ -154,7 +154,7 @@
                 "ddd",
                 "domain model"
             ],
-            "time": "2015-07-24 10:20:36"
+            "time": "2015-07-24 11:02:40"
         },
         {
             "name": "watoki/collections",
