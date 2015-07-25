@@ -12,9 +12,6 @@ class ListPosts {
         $this->author = $author;
     }
 
-    /**
-     * @return null|\rtens\blog\model\Author-ID
-     */
     public function getAuthor() {
         return $this->author;
     }
