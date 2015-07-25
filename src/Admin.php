@@ -32,7 +32,7 @@ class Admin {
     public static function initWeb(WebApplication $app, $storageDir) {
         (new Admin($storageDir, $app->factory))
             ->initActions($app->actions, $app->types)
-            ->initLinks($app->links, $app->actions)
+            ->initLinks($app->links)
             ->initIdentifierProviders($app->identifiers)
             ->initMenu($app->menu);
     }
@@ -118,14 +118,14 @@ class Admin {
             });
     }
 
-    private function initLinks(LinkRegistry $links, ActionRegistry $actions) {
+    private function initLinks(LinkRegistry $links) {
         $postParameters = function (Post $post) {
             return ['id' => $post->getId()];
         };
 
-        $links->add($this->makeAuthorLink('showAuthor', $actions));
-        $links->add($this->makeAuthorLink('changeAuthorPicture', $actions));
-        $links->add($this->makeAuthorLink('changeAuthorName', $actions));
+        $links->add($this->makeAuthorLink('showAuthor'));
+        $links->add($this->makeAuthorLink('changeAuthorPicture'));
+        $links->add($this->makeAuthorLink('changeAuthorName'));
 
         $links->add(new ClassLink(Author::class, 'listPosts', function (Author $author) {
             return ['author' => $author->getEmail()];
@@ -144,19 +144,18 @@ class Admin {
         $links->add((new ClassLink(Post::class, 'deletePost', $postParameters))
             ->setConfirmation('Are you sure?'));
 
-        $links->add((new IdentifierLink(Author::class, MethodActionGenerator::actionId(AuthorService::class, 'showAuthor'), 'email'))
-            ->setCaption('Show Author'));
-        $links->add((new IdentifierLink(Author::class, 'listPosts', 'author')));
+        $links->add(new IdentifierLink(Author::class, MethodActionGenerator::actionId(AuthorService::class, 'showAuthor'), 'email'));
+        $links->add(new IdentifierLink(Author::class, 'listPosts', 'author'));
 
         return $this;
     }
 
-    private function makeAuthorLink($method, ActionRegistry $actions) {
+    private function makeAuthorLink($method) {
         $actionId = MethodActionGenerator::actionId(AuthorService::class, $method);
 
-        return (new ClassLink(Author::class, $actionId, function (Author $author) {
+        return new ClassLink(Author::class, $actionId, function (Author $author) {
             return ['email' => $author->getEmail()];
-        }))->setCaption($actions->getAction($actionId)->caption());
+        });
     }
 
     private function initMenu(Menu $menu) {

@@ -20,7 +20,11 @@ class AuthorService {
     }
 
     /**
-     * @param string $email
+     * Registers a new Author who can write blog posts.
+     *
+     * This is really just a second line of description.
+     *
+     * @param string $email The email address wont be visible in the blog.
      * @param string $name
      * @param null|Image $picture
      * @return Author

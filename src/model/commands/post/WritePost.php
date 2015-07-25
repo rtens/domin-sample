@@ -4,6 +4,9 @@ namespace rtens\blog\model\commands\post;
 use rtens\blog\model\Author;
 use rtens\domin\parameters\Html;
 
+/**
+ * Write and publish a new blog post.
+ */
 class WritePost {
 
     private $author;

@@ -1,6 +1,11 @@
 <?php
 namespace rtens\blog\model\commands\post;
 
+/**
+ * Publish a blog post on a certain date.
+ *
+ * This is just a filler.
+ */
 class PublishPost implements \rtens\blog\model\commands\PostCommand {
 
     private $id;
