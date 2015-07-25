@@ -1,6 +1,11 @@
 <?php
 namespace rtens\blog\model\commands\demo;
 
+/**
+ * This action demonstrates all standard fields.
+ *
+ * Complex fields can be arbitrarily combined.
+ */
 class DemoAction {
 
     const OPTION_ONE = 'one';
@@ -22,7 +27,7 @@ class DemoAction {
     /** @var null|string */
     public $nullable = "default";
 
-    /** @var \DateTime */
+    /** @var \DateTime This field also accepts <a href="http://php.net/manual/en/datetime.formats.relative.php">natural language input</a> */
     public $dateTime;
 
     /** @var \rtens\domin\parameters\File */
@@ -40,7 +45,7 @@ class DemoAction {
     /** @var inner\DemoFoo */
     public $object;
 
-    /** @var inner\DemoBar[] */
+    /** @var inner\DemoBar[] Demonstrates how structured fields can be combined. */
     public $objectArray;
 
     /** @var string|inner\DemoFoo|inner\DemoBar */
@@ -50,7 +55,7 @@ class DemoAction {
     public $identifier;
 
     /**
-     * @param string $required
+     * @param string $required Required parameters must be filled.
      */
     public function __construct($required) {
     }

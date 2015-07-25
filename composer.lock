@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f136b7171d2eca5560868c8adbab0d2a",
+    "hash": "88bab47450cd79652f97dabfdf2d476b",
     "packages": [
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -111,12 +111,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rtens/domin.git",
-                "reference": "3dfd3f612c59fda6a8588c9eaf1a7c4bef884be2"
+                "reference": "7efc8242c75ccbadd70685227e8d8ac7345bb146"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rtens/domin/zipball/d25c271c102f3a727ceadc2a189e56ff0c0d84a2",
-                "reference": "3dfd3f612c59fda6a8588c9eaf1a7c4bef884be2",
+                "url": "https://api.github.com/repos/rtens/domin/zipball/7efc8242c75ccbadd70685227e8d8ac7345bb146",
+                "reference": "7efc8242c75ccbadd70685227e8d8ac7345bb146",
                 "shasum": ""
             },
             "require": {
@@ -154,7 +154,7 @@
                 "ddd",
                 "domain model"
             ],
-            "time": "2015-07-24 13:00:08"
+            "time": "2015-07-25 14:03:43"
         },
         {
             "name": "watoki/collections",
@@ -358,12 +358,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/watoki/reflect.git",
-                "reference": "0e01d1f0fa8fdf3302cd280e71f4cee59751f15b"
+                "reference": "1f561e4765875546ed60cc87cb4bb1359ec3a14e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/watoki/reflect/zipball/0e01d1f0fa8fdf3302cd280e71f4cee59751f15b",
-                "reference": "0e01d1f0fa8fdf3302cd280e71f4cee59751f15b",
+                "url": "https://api.github.com/repos/watoki/reflect/zipball/1f561e4765875546ed60cc87cb4bb1359ec3a14e",
+                "reference": "1f561e4765875546ed60cc87cb4bb1359ec3a14e",
                 "shasum": ""
             },
             "require": {
@@ -399,7 +399,7 @@
                 "type hints",
                 "watoki"
             ],
-            "time": "2015-07-22 13:11:42"
+            "time": "2015-07-25 12:30:41"
         },
         {
             "name": "watoki/smokey",
