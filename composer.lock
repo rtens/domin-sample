@@ -150,12 +150,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rtens/domin.git",
-                "reference": "381eac8c00e0e660796762582693cedad330a8cd"
+                "reference": "67339ab6f710bda482dfcc220ae9614edf748e9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rtens/domin/zipball/381eac8c00e0e660796762582693cedad330a8cd",
-                "reference": "381eac8c00e0e660796762582693cedad330a8cd",
+                "url": "https://api.github.com/repos/rtens/domin/zipball/67339ab6f710bda482dfcc220ae9614edf748e9f",
+                "reference": "67339ab6f710bda482dfcc220ae9614edf748e9f",
                 "shasum": ""
             },
             "require": {
@@ -165,6 +165,10 @@
             "require-dev": {
                 "rtens/mockster": "dev-master",
                 "rtens/scrut": "dev-master"
+            },
+            "suggest": {
+                "erusev/parsedown": "To parse Action and Parameter descriptions for HTML output.",
+                "mobiledetect/mobiledetectlib": "To enable mobile-specific client-side code only when on mobile."
             },
             "type": "library",
             "autoload": {
@@ -192,7 +196,7 @@
                 "ddd",
                 "domain model"
             ],
-            "time": "2015-07-26 09:47:03"
+            "time": "2015-07-26 12:10:13"
         },
         {
             "name": "watoki/collections",

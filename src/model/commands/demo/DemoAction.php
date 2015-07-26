@@ -4,7 +4,7 @@ namespace rtens\blog\model\commands\demo;
 /**
  * This action demonstrates all *standard* fields.
  *
- * Complex fields can be arbitrarily combined.
+ * See [code](http://github.com/rtens/domin-sample/blob/master/src/model/commands/demo/DemoAction.php)
  */
 class DemoAction {
 
@@ -44,9 +44,6 @@ class DemoAction {
 
     /** @var inner\DemoFoo */
     public $object;
-
-    /** @var inner\DemoBar[] Demonstrates how structured fields can be combined. */
-    public $objectArray;
 
     /** @var string|inner\DemoFoo|inner\DemoBar */
     public $multi;
