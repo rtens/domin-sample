@@ -4,8 +4,47 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "88bab47450cd79652f97dabfdf2d476b",
+    "hash": "1948a927c2936d54e8154c247a7e68ea",
     "packages": [
+        {
+            "name": "erusev/parsedown",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/erusev/parsedown.git",
+                "reference": "a9dfc97ddc06ca4739630d029bb3d2e16f3efc12"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/a9dfc97ddc06ca4739630d029bb3d2e16f3efc12",
+                "reference": "a9dfc97ddc06ca4739630d029bb3d2e16f3efc12",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Parsedown": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Emanuil Rusev",
+                    "email": "hello@erusev.com",
+                    "homepage": "http://erusev.com"
+                }
+            ],
+            "description": "Parser for Markdown.",
+            "homepage": "http://parsedown.org",
+            "keywords": [
+                "markdown",
+                "parser"
+            ],
+            "time": "2015-07-16 13:57:13"
+        },
         {
             "name": "mobiledetect/mobiledetectlib",
             "version": "dev-master",
@@ -111,16 +150,15 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rtens/domin.git",
-                "reference": "f23a7c11af8e1c921bc1e78db057b50c7709f479"
+                "reference": "381eac8c00e0e660796762582693cedad330a8cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rtens/domin/zipball/f23a7c11af8e1c921bc1e78db057b50c7709f479",
-                "reference": "f23a7c11af8e1c921bc1e78db057b50c7709f479",
+                "url": "https://api.github.com/repos/rtens/domin/zipball/381eac8c00e0e660796762582693cedad330a8cd",
+                "reference": "381eac8c00e0e660796762582693cedad330a8cd",
                 "shasum": ""
             },
             "require": {
-                "mobiledetect/mobiledetectlib": "dev-master",
                 "watoki/curir": "dev-master",
                 "watoki/reflect": "dev-master"
             },
@@ -154,7 +192,7 @@
                 "ddd",
                 "domain model"
             ],
-            "time": "2015-07-25 19:12:57"
+            "time": "2015-07-26 09:47:03"
         },
         {
             "name": "watoki/collections",
@@ -501,7 +539,9 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "rtens/domin": 20
+        "rtens/domin": 20,
+        "mobiledetect/mobiledetectlib": 20,
+        "erusev/parsedown": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

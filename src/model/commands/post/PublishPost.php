@@ -2,9 +2,9 @@
 namespace rtens\blog\model\commands\post;
 
 /**
- * Publish a blog post on a certain date.
+ * Publish a blog post on a certain *date*.
  *
- * This is just a filler.
+ * Ignore this line.
  */
 class PublishPost implements \rtens\blog\model\commands\PostCommand {
 

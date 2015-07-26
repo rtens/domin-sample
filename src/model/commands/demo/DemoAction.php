@@ -2,7 +2,7 @@
 namespace rtens\blog\model\commands\demo;
 
 /**
- * This action demonstrates all standard fields.
+ * This action demonstrates all *standard* fields.
  *
  * Complex fields can be arbitrarily combined.
  */
@@ -27,7 +27,7 @@ class DemoAction {
     /** @var null|string */
     public $nullable = "default";
 
-    /** @var \DateTime This field also accepts <a href="http://php.net/manual/en/datetime.formats.relative.php">natural language input</a> */
+    /** @var \DateTime This field also accepts [natural language input](http://php.net/manual/en/datetime.formats.relative.php). Click on the calendar to active it. */
     public $dateTime;
 
     /** @var \rtens\domin\parameters\File */

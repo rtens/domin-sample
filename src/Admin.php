@@ -20,6 +20,7 @@ use rtens\domin\delivery\web\renderers\link\LinkRegistry;
 use rtens\domin\delivery\web\WebApplication;
 use rtens\domin\execution\RedirectResult;
 use rtens\domin\parameters\IdentifiersProvider;
+use rtens\domin\reflection\CommentParser;
 use rtens\domin\reflection\GenericMethodAction;
 use rtens\domin\reflection\GenericObjectAction;
 use rtens\domin\reflection\MethodActionGenerator;
@@ -31,7 +32,7 @@ class Admin {
 
     public static function initWeb(WebApplication $app, $storageDir) {
         (new Admin($storageDir, $app->factory))
-            ->initActions($app->actions, $app->types)
+            ->initActions($app->actions, $app->types, $app->parser)
             ->initLinks($app->links)
             ->initIdentifierProviders($app->identifiers)
             ->initMenu($app->menu);
@@ -39,7 +40,7 @@ class Admin {
 
     public static function initCli(CliApplication $app, $storageDir) {
         (new Admin($storageDir, $app->factory))
-            ->initActions($app->actions, $app->types);
+            ->initActions($app->actions, $app->types, $app->parser);
     }
 
     public function __construct($storageDir, Factory $factory) {
@@ -51,20 +52,20 @@ class Admin {
         $this->authorService = $factory->setSingleton(new AuthorService($this->authors));
     }
 
-    private function initActions(ActionRegistry $actions, TypeFactory $types) {
-        $this->initPostActions($actions, $types);
-        $this->initAuthorActions($actions, $types);
+    private function initActions(ActionRegistry $actions, TypeFactory $types, CommentParser $parser) {
+        $this->initPostActions($actions, $types, $parser);
+        $this->initAuthorActions($actions, $types, $parser);
 
         return $this;
     }
 
-    private function initPostActions(ActionRegistry $actions, TypeFactory $types) {
+    private function initPostActions(ActionRegistry $actions, TypeFactory $types, CommentParser $parser) {
         $execute = function ($object) {
             $methodName = 'handle' . (new \ReflectionClass($object))->getShortName();
             return call_user_func([$this->postService, $methodName], $object);
         };
 
-        (new ObjectActionGenerator($actions, $types))
+        (new ObjectActionGenerator($actions, $types, $parser))
             ->fromFolder(__DIR__ . '/model/commands/demo', $execute)
             ->fromFolder(__DIR__ . '/model/commands/post', $execute)
             ->configure(WritePost::class, function (GenericObjectAction $action) {
@@ -98,8 +99,8 @@ class Admin {
             });
     }
 
-    private function initAuthorActions(ActionRegistry $actions, TypeFactory $types) {
-        (new MethodActionGenerator($actions, $types))
+    private function initAuthorActions(ActionRegistry $actions, TypeFactory $types, CommentParser $parser) {
+        (new MethodActionGenerator($actions, $types, $parser))
             ->fromObject($this->authorService)
             ->configure($this->authorService, 'changeAuthorName', function (GenericMethodAction $action) {
                 $action->setFill(function ($parameters) {

@@ -1,6 +1,8 @@
 {
   "require": {
-    "rtens/domin": "dev-master"
+    "rtens/domin": "dev-master",
+    "mobiledetect/mobiledetectlib": "dev-master",
+    "erusev/parsedown": "dev-master"
   },
   "autoload": {
     "psr-4": {
