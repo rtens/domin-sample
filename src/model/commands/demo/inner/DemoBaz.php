@@ -7,8 +7,8 @@ use rtens\domin\parameters\Image;
 
 class DemoBaz {
 
-    /** @var null|DemoBar[] */
-    public $bars;
+    /** @var null|DemoFoo[] */
+    public $foos;
 
     /** @var Image[]|File[]|Html[] */
     public $stuff;

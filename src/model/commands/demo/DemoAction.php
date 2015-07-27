@@ -4,7 +4,7 @@ namespace rtens\blog\model\commands\demo;
 /**
  * This action demonstrates all *standard* fields.
  *
- * See [code](http://github.com/rtens/domin-sample/blob/master/src/model/commands/demo/DemoAction.php)
+ * You can find the code that is Action is generated from [here](http://github.com/rtens/domin-sample/blob/master/src/model/commands/demo/DemoAction.php)
  */
 class DemoAction {
 
