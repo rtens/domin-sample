@@ -90,9 +90,11 @@ class Admin {
             })
             ->configure(ChangePostTags::class, function (GenericObjectAction $action) {
                 $action->setFill(function ($parameters) {
-                    $post = $this->posts->read($parameters['id']);
-                    if (empty($parameters['tags'])) {
-                        $parameters['tags'] = $post->getTags();
+                    if (!empty($parameters['id'])) {
+                        $post = $this->posts->read($parameters['id']);
+                        if (empty($parameters['tags'])) {
+                            $parameters['tags'] = $post->getTags();
+                        }
                     }
                     return $parameters;
                 });
