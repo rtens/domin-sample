@@ -17,8 +17,11 @@ use rtens\domin\delivery\web\menu\MenuItem;
 use rtens\domin\delivery\web\renderers\link\ClassLink;
 use rtens\domin\delivery\web\renderers\link\IdentifierLink;
 use rtens\domin\delivery\web\renderers\link\LinkRegistry;
+use rtens\domin\delivery\web\renderers\table\GenericTableConfiguration;
+use rtens\domin\delivery\web\renderers\table\TableConfigurationRegistry;
 use rtens\domin\delivery\web\WebApplication;
 use rtens\domin\execution\RedirectResult;
+use rtens\domin\parameters\Html;
 use rtens\domin\parameters\IdentifiersProvider;
 use rtens\domin\reflection\CommentParser;
 use rtens\domin\reflection\GenericMethodAction;
@@ -32,6 +35,7 @@ class Admin {
 
     public static function initWeb(WebApplication $app, $storageDir) {
         (new Admin($storageDir, $app->factory))
+            ->initTable($app->tables, $app->types)
             ->initActions($app->actions, $app->types, $app->parser)
             ->initLinks($app->links)
             ->initIdentifierProviders($app->identifiers)
@@ -188,6 +192,15 @@ class Admin {
             return $ids;
         });
 
+        return $this;
+    }
+
+    private function initTable(TableConfigurationRegistry $tables, TypeFactory $types) {
+        $tables->add((new GenericTableConfiguration($types, Post::class, ['title', 'published', 'publishDate', 'text', 'author']))
+            ->setHeaderCaption('published', 'Up')
+            ->setFilter('text', function (Html $text) {
+                return substr(strip_tags($text->getContent()), 0, 50) . '...';
+            }));
         return $this;
     }
 }

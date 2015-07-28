@@ -1,6 +1,7 @@
 <?php
 namespace rtens\blog;
 
+use rtens\blog\model\commands\demo\DemoComplex;
 use rtens\blog\model\commands\post\ChangePostTags;
 use rtens\blog\model\commands\post\DeletePost;
 use rtens\blog\model\commands\demo\DemoAction;
@@ -31,6 +32,10 @@ class PostService {
         return $demo;
     }
 
+    public function handleDemoComplex(DemoComplex $demo) {
+        return $demo;
+    }
+
     public function handleDeletePost(DeletePost $command) {
         $this->posts->delete($command->getId());
     }
@@ -50,9 +55,10 @@ class PostService {
     }
 
     public function handleListPosts(ListPosts $command) {
-        return array_filter($this->posts->readAll(), function (Post $post) use ($command) {
-            return !$command->getAuthor() || $post->getAuthor()->getId() == $command->getAuthor();
-        });
+        return array_values(array_filter($this->posts->readAll(), function (Post $post) use ($command) {
+            return (is_null($command->getAuthor()) || $command->getAuthor() == $post->getAuthor()->getId())
+                && (is_null($command->getPublished()) || $command->getPublished() === $post->isPublished());
+        }));
     }
 
     public function handleShowPost(ShowPost $command) {
