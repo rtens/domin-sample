@@ -25,8 +25,8 @@ class DemoCharts {
         ]);
         $this->pieChart = $pieChart ?: new PieChart([
             new DataPoint(11, 'Foo'),
-            new DataPoint(8, 'Foo'),
-            new DataPoint(5, 'Foo'),
+            new DataPoint(8, 'Bar'),
+            new DataPoint(5, 'Baz'),
         ]);
     }
 
