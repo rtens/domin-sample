@@ -13,6 +13,6 @@ namespace rtens\blog\model\commands\demo;
  */
 class DemoComplex {
 
-    /** @var inner\DemoBaz[] */
+    /** @var inner\Baz[] */
     public $objects;
 }

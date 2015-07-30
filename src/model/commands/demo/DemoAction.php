@@ -42,10 +42,10 @@ class DemoAction {
     /** @var array|string[] */
     public $array;
 
-    /** @var inner\DemoFoo */
+    /** @var inner\Foo */
     public $object;
 
-    /** @var string|inner\DemoFoo|inner\DemoBar */
+    /** @var string|inner\Foo|inner\Bar */
     public $multi;
 
     /** @var \rtens\blog\model\Author-ID */

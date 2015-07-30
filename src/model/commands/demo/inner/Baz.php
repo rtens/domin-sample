@@ -5,9 +5,9 @@ use rtens\domin\parameters\File;
 use rtens\domin\parameters\Html;
 use rtens\domin\parameters\Image;
 
-class DemoBaz {
+class Baz {
 
-    /** @var null|DemoFoo[] */
+    /** @var null|Foo[] */
     public $foos;
 
     /** @var Image[]|File[]|Html[] */

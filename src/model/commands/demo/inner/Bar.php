@@ -1,11 +1,11 @@
 <?php
 namespace rtens\blog\model\commands\demo\inner;
 
-class DemoFoo {
+class Bar {
 
     /** @var string */
     public $foo;
 
-    /** @var null|DemoBar */
+    /** @var string */
     public $bar;
 }

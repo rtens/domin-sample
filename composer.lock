@@ -150,12 +150,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rtens/domin.git",
-                "reference": "0daa84e8b02999fb8bdfd3de6d38fdc5ae208cfe"
+                "reference": "1b8d75bdd3420758140a1abc9ccf9485d49d0181"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rtens/domin/zipball/0daa84e8b02999fb8bdfd3de6d38fdc5ae208cfe",
-                "reference": "0daa84e8b02999fb8bdfd3de6d38fdc5ae208cfe",
+                "url": "https://api.github.com/repos/rtens/domin/zipball/1b8d75bdd3420758140a1abc9ccf9485d49d0181",
+                "reference": "1b8d75bdd3420758140a1abc9ccf9485d49d0181",
                 "shasum": ""
             },
             "require": {
@@ -196,7 +196,7 @@
                 "ddd",
                 "domain model"
             ],
-            "time": "2015-07-28 09:01:03"
+            "time": "2015-07-30 13:33:41"
         },
         {
             "name": "watoki/collections",
@@ -249,12 +249,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/watoki/curir.git",
-                "reference": "11acb824276e909bba2212d1117f9930438a2c81"
+                "reference": "f27297d3839ce3ef798579c676fabfc55ca4db1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/watoki/curir/zipball/11acb824276e909bba2212d1117f9930438a2c81",
-                "reference": "11acb824276e909bba2212d1117f9930438a2c81",
+                "url": "https://api.github.com/repos/watoki/curir/zipball/f27297d3839ce3ef798579c676fabfc55ca4db1c",
+                "reference": "f27297d3839ce3ef798579c676fabfc55ca4db1c",
                 "shasum": ""
             },
             "require": {
@@ -293,7 +293,7 @@
                 "routing",
                 "watoki"
             ],
-            "time": "2015-07-15 10:41:58"
+            "time": "2015-07-29 09:12:22"
         },
         {
             "name": "watoki/deli",

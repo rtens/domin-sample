@@ -1,6 +1,7 @@
 <?php
 namespace rtens\blog;
 
+use rtens\blog\model\commands\demo\DemoCharts;
 use rtens\blog\model\commands\demo\DemoComplex;
 use rtens\blog\model\commands\post\ChangePostTags;
 use rtens\blog\model\commands\post\DeletePost;
@@ -29,6 +30,10 @@ class PostService {
     }
 
     public function handleDemoAction(DemoAction $demo) {
+        return $demo;
+    }
+
+    public function handleDemoCharts(DemoCharts $demo) {
         return $demo;
     }
 
