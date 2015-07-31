@@ -22,6 +22,7 @@ class DemoCharts {
         $this->lineChart = $lineChart ?: new LineChart(['one', 'two', 'three', 'four', 'five'], [
             new DataSet('Foo', [12, 16, 30, 6, 0]),
             new DataSet('Bar', [5, 2, 28, 26, 28]),
+            new DataSet('Baz', [7, 10, 5, 15, 18]),
         ]);
         $this->pieChart = $pieChart ?: new PieChart([
             new DataPoint(11, 'Foo'),
