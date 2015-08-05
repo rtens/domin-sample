@@ -2,8 +2,10 @@
 namespace rtens\blog;
 
 use rtens\blog\model\Author;
+use rtens\blog\model\commands\demo\inner\Bar;
 use rtens\blog\model\commands\post\ChangePostTags;
 use rtens\blog\model\commands\post\DeletePost;
+use rtens\blog\model\commands\post\ListPosts;
 use rtens\blog\model\commands\post\UpdatePost;
 use rtens\blog\model\commands\post\WritePost;
 use rtens\blog\model\Post;
@@ -17,8 +19,8 @@ use rtens\domin\delivery\web\menu\MenuItem;
 use rtens\domin\delivery\web\renderers\link\ClassLink;
 use rtens\domin\delivery\web\renderers\link\IdentifierLink;
 use rtens\domin\delivery\web\renderers\link\LinkRegistry;
-use rtens\domin\delivery\web\renderers\table\GenericTableConfiguration;
-use rtens\domin\delivery\web\renderers\table\TableConfigurationRegistry;
+use rtens\domin\delivery\web\renderers\tables\DataTable;
+use rtens\domin\delivery\web\renderers\tables\ObjectTable;
 use rtens\domin\delivery\web\WebApplication;
 use rtens\domin\execution\RedirectResult;
 use rtens\domin\parameters\Html;
@@ -35,7 +37,6 @@ class Admin {
 
     public static function initWeb(WebApplication $app, $storageDir) {
         (new Admin($storageDir, $app->factory))
-            ->initTable($app->tables, $app->types)
             ->initActions($app->actions, $app->types, $app->parser)
             ->initLinks($app->links)
             ->initIdentifierProviders($app->identifiers)
@@ -64,14 +65,18 @@ class Admin {
     }
 
     private function initPostActions(ActionRegistry $actions, TypeFactory $types, CommentParser $parser) {
-        $execute = function ($object) {
+        $postExecute = function ($object) {
             $methodName = 'handle' . (new \ReflectionClass($object))->getShortName();
             return call_user_func([$this->postService, $methodName], $object);
         };
 
+        $demoExecute = function ($object) {
+            return $object;
+        };
+
         (new ObjectActionGenerator($actions, $types, $parser))
-            ->fromFolder(__DIR__ . '/model/commands/demo', $execute)
-            ->fromFolder(__DIR__ . '/model/commands/post', $execute)
+            ->fromFolder(__DIR__ . '/model/commands/demo', $demoExecute)
+            ->fromFolder(__DIR__ . '/model/commands/post', $postExecute)
             ->configure(WritePost::class, function (GenericObjectAction $action) {
                 $action->setAfterExecute(function (Post $post) {
                     return new RedirectResult('showPost', ['id' => $post->getId()]);
@@ -101,6 +106,16 @@ class Admin {
                         }
                     }
                     return $parameters;
+                });
+            })
+            ->configure(ListPosts::class, function (GenericObjectAction $action) use ($types) {
+                $action->setAfterExecute(function ($posts) use ($types) {
+                    return new DataTable((new ObjectTable($posts, $types))
+                        ->selectProperties(['title', 'published', 'publishDate', 'text', 'author'])
+                        ->setHeader('published', 'Up')
+                        ->setFilter('text', function (Html $text) {
+                            return substr(strip_tags($text->getContent()), 0, 50) . '...';
+                        }));
                 });
             });
     }
@@ -154,6 +169,9 @@ class Admin {
         $links->add(new IdentifierLink(Author::class, MethodActionGenerator::actionId(AuthorService::class, 'showAuthor'), 'email'));
         $links->add(new IdentifierLink(Author::class, 'listPosts', 'author'));
 
+        $links->add(new ClassLink(Bar::class, 'demoTables'));
+        $links->add(new ClassLink(Bar::class, 'demoCharts'));
+
         return $this;
     }
 
@@ -192,15 +210,6 @@ class Admin {
             return $ids;
         });
 
-        return $this;
-    }
-
-    private function initTable(TableConfigurationRegistry $tables, TypeFactory $types) {
-        $tables->add((new GenericTableConfiguration($types, Post::class, ['title', 'published', 'publishDate', 'text', 'author']))
-            ->setHeaderCaption('published', 'Up')
-            ->setFilter('text', function (Html $text) {
-                return substr(strip_tags($text->getContent()), 0, 50) . '...';
-            }));
         return $this;
     }
 }

@@ -1,6 +1,6 @@
 {
   "require": {
-    "rtens/domin": "dev-master",
+    "rtens/domin": "dev-master#e9bb2222890533a7374e7bb2734b5dfa0bfdc2aa",
     "mobiledetect/mobiledetectlib": "dev-master",
     "erusev/parsedown": "dev-master"
   },

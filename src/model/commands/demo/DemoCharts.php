@@ -11,6 +11,8 @@ use rtens\domin\delivery\web\renderers\charting\data\DataSet;
 
 /**
  * Demonstrates the different Chart types
+ *
+ * You can find the code that is Action is generated from [here](http://github.com/rtens/domin-sample/blob/master/src/model/commands/demo/DemoCharts.php)
  */
 class DemoCharts {
 

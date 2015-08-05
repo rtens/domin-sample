@@ -1,18 +1,15 @@
 <?php
 namespace rtens\blog;
 
-use rtens\blog\model\commands\demo\DemoCharts;
-use rtens\blog\model\commands\demo\DemoComplex;
 use rtens\blog\model\commands\post\ChangePostTags;
 use rtens\blog\model\commands\post\DeletePost;
-use rtens\blog\model\commands\demo\DemoAction;
+use rtens\blog\model\commands\post\ListPosts;
 use rtens\blog\model\commands\post\PublishPost;
+use rtens\blog\model\commands\post\ShowPost;
 use rtens\blog\model\commands\post\UnpublishPost;
 use rtens\blog\model\commands\post\UpdatePost;
 use rtens\blog\model\commands\post\WritePost;
 use rtens\blog\model\Post;
-use rtens\blog\model\commands\post\ListPosts;
-use rtens\blog\model\commands\post\ShowPost;
 use rtens\blog\model\repositories\AuthorRepository;
 use rtens\blog\model\repositories\PostRepository;
 
@@ -27,18 +24,6 @@ class PostService {
     function __construct(AuthorRepository $authors, PostRepository $posts) {
         $this->authors = $authors;
         $this->posts = $posts;
-    }
-
-    public function handleDemoAction(DemoAction $demo) {
-        return $demo;
-    }
-
-    public function handleDemoCharts(DemoCharts $demo) {
-        return $demo;
-    }
-
-    public function handleDemoComplex(DemoComplex $demo) {
-        return $demo;
     }
 
     public function handleDeletePost(DeletePost $command) {
