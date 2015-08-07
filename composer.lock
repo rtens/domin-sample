@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2a8f8a85195071ec0f838cfb7616978c",
+    "hash": "bb3124ff29356ce0ba17848e73eb6319",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -44,6 +44,57 @@
                 "parser"
             ],
             "time": "2015-08-03 09:24:05"
+        },
+        {
+            "name": "league/climate",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/climate.git",
+                "reference": "242bdd4a700e84b309406e3da91f0d078bd31214"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/climate/zipball/242bdd4a700e84b309406e3da91f0d078bd31214",
+                "reference": "242bdd4a700e84b309406e3da91f0d078bd31214",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "seld/cli-prompt": "~1.0"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "~1.4",
+                "mockery/mockery": "dev-master",
+                "phpunit/phpunit": "~4.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\CLImate\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joe Tannenbaum",
+                    "email": "hey@joe.codes",
+                    "homepage": "http://joe.codes/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP's best friend for the terminal. CLImate allows you to easily output colored text, special formats, and more.",
+            "keywords": [
+                "cli",
+                "colors",
+                "command",
+                "php",
+                "terminal"
+            ],
+            "time": "2015-08-06 00:39:01"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -154,7 +205,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rtens/domin/zipball/daf092a33f3a4f770a607d954e4639c979afbd3c",
+                "url": "https://api.github.com/repos/rtens/domin/zipball/b672c1d35543547e3cf17be1935b3d77a7ba7c25",
                 "reference": "e9bb2222890533a7374e7bb2734b5dfa0bfdc2aa",
                 "shasum": ""
             },
@@ -197,6 +248,54 @@
                 "domain model"
             ],
             "time": "2015-08-05 14:57:56"
+        },
+        {
+            "name": "seld/cli-prompt",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/cli-prompt.git",
+                "reference": "fe114c7a6ac5cb0ce76932ae4017024d9842a49c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Seldaek/cli-prompt/zipball/fe114c7a6ac5cb0ce76932ae4017024d9842a49c",
+                "reference": "fe114c7a6ac5cb0ce76932ae4017024d9842a49c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Seld\\CliPrompt\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be"
+                }
+            ],
+            "description": "Allows you to prompt for user input on the command line, and optionally hide the characters they type",
+            "keywords": [
+                "cli",
+                "console",
+                "hidden",
+                "input",
+                "prompt"
+            ],
+            "time": "2015-04-30 20:24:49"
         },
         {
             "name": "watoki/collections",
@@ -545,7 +644,8 @@
     "stability-flags": {
         "rtens/domin": 20,
         "mobiledetect/mobiledetectlib": 20,
-        "erusev/parsedown": 20
+        "erusev/parsedown": 20,
+        "league/climate": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
