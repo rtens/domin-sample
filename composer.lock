@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bb3124ff29356ce0ba17848e73eb6319",
+    "hash": "08d40633c29d67f521ce0815ccd102a7",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -201,12 +201,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rtens/domin.git",
-                "reference": "e9bb2222890533a7374e7bb2734b5dfa0bfdc2aa"
+                "reference": "b63419f37a87a82590df24966adae5d4e05b334d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rtens/domin/zipball/b672c1d35543547e3cf17be1935b3d77a7ba7c25",
-                "reference": "e9bb2222890533a7374e7bb2734b5dfa0bfdc2aa",
+                "url": "https://api.github.com/repos/rtens/domin/zipball/b63419f37a87a82590df24966adae5d4e05b334d",
+                "reference": "b63419f37a87a82590df24966adae5d4e05b334d",
                 "shasum": ""
             },
             "require": {
@@ -219,6 +219,7 @@
             },
             "suggest": {
                 "erusev/parsedown": "To parse Action and Parameter descriptions for HTML output.",
+                "league/climate": "Used by some CLI components",
                 "mobiledetect/mobiledetectlib": "To enable mobile-specific client-side code only when on mobile."
             },
             "type": "library",
@@ -247,7 +248,7 @@
                 "ddd",
                 "domain model"
             ],
-            "time": "2015-08-05 14:57:56"
+            "time": "2015-08-07 08:52:40"
         },
         {
             "name": "seld/cli-prompt",
