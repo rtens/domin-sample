@@ -53,8 +53,8 @@ class Admin {
 
         $this->authors = new PersistentAuthorRepository($storageDir);
         $this->posts = new PersistentPostRepository($storageDir);
-        $this->postService = $factory->setSingleton(new PostService($this->authors, $this->posts));
-        $this->authorService = $factory->setSingleton(new AuthorService($this->authors));
+        $this->postService = $factory->setSingleton(new Posts($this->authors, $this->posts));
+        $this->authorService = $factory->setSingleton(new Authors($this->authors));
     }
 
     private function initActions(ActionRegistry $actions, TypeFactory $types, CommentParser $parser, $cli = false) {
@@ -129,7 +129,7 @@ class Admin {
     private function initAuthorActions(ActionRegistry $actions, TypeFactory $types, CommentParser $parser, $cli) {
         (new MethodActionGenerator($actions, $types, $parser))
             ->fromObject($this->authorService)
-            ->configure($this->authorService, 'changeAuthorName', function (GenericMethodAction $action) {
+            ->configure($this->authorService, 'changeName', function (GenericMethodAction $action) {
                 $action->setFill(function ($parameters) {
                     if ($parameters['email']) {
                         $author = $this->authors->read($parameters['email']);
@@ -138,13 +138,13 @@ class Admin {
                     return $parameters;
                 });
             })
-            ->configure($this->authorService, 'registerAuthor', function (GenericMethodAction $action) {
+            ->configure($this->authorService, 'register', function (GenericMethodAction $action) {
                 $action->setAfterExecute(function (Author $author) {
-                    $actionId = MethodActionGenerator::actionId(AuthorService::class, 'showAuthor');
+                    $actionId = MethodActionGenerator::actionId(Authors::class, 'show');
                     return new RedirectResult($actionId, ['email' => $author->getEmail()]);
                 });
             })
-            ->configure($this->authorService, 'listAuthors', function (GenericMethodAction $action) use ($types, $cli) {
+            ->configure($this->authorService, 'all', function (GenericMethodAction $action) use ($types, $cli) {
                 if ($cli) {
                     $action->setAfterExecute(function ($authors) use ($types) {
                         return new ObjectTable($authors, $types);
@@ -158,9 +158,9 @@ class Admin {
             return ['id' => $post->getId()];
         };
 
-        $links->add($this->makeAuthorLink('showAuthor'));
-        $links->add($this->makeAuthorLink('changeAuthorPicture'));
-        $links->add($this->makeAuthorLink('changeAuthorName'));
+        $links->add($this->makeAuthorLink('show'));
+        $links->add($this->makeAuthorLink('changePicture'));
+        $links->add($this->makeAuthorLink('changeName'));
 
         $links->add(new ClassLink(Author::class, 'listPosts', function (Author $author) {
             return ['author' => $author->getEmail()];
@@ -179,7 +179,7 @@ class Admin {
         $links->add((new ClassLink(Post::class, 'deletePost', $postParameters))
             ->setConfirmation('Are you sure?'));
 
-        $links->add(new IdentifierLink(Author::class, MethodActionGenerator::actionId(AuthorService::class, 'showAuthor'), 'email'));
+        $links->add(new IdentifierLink(Author::class, MethodActionGenerator::actionId(Authors::class, 'show'), 'email'));
         $links->add(new IdentifierLink(Author::class, 'listPosts', 'author'));
 
         $links->add(new ClassLink(Bar::class, 'demoTables'));
@@ -189,7 +189,7 @@ class Admin {
     }
 
     private function makeAuthorLink($method) {
-        $actionId = MethodActionGenerator::actionId(AuthorService::class, $method);
+        $actionId = MethodActionGenerator::actionId(Authors::class, $method);
 
         return new ClassLink(Author::class, $actionId, function (Author $author) {
             return ['email' => $author->getEmail()];
@@ -200,8 +200,8 @@ class Admin {
         $menu->add(new MenuItem('writePost'));
         $menu->add(new MenuItem('listPosts'));
         $menu->addGroup((new MenuGroup('Authors'))
-            ->add(new MenuItem(MethodActionGenerator::actionId(AuthorService::class, 'registerAuthor')))
-            ->add(new MenuItem(MethodActionGenerator::actionId(AuthorService::class, 'listAuthors')))
+            ->add(new MenuItem(MethodActionGenerator::actionId(Authors::class, 'register')))
+            ->add(new MenuItem(MethodActionGenerator::actionId(Authors::class, 'all')))
         );
 
         return $this;

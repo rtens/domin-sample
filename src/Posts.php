@@ -13,7 +13,7 @@ use rtens\blog\model\Post;
 use rtens\blog\model\repositories\AuthorRepository;
 use rtens\blog\model\repositories\PostRepository;
 
-class PostService {
+class Posts {
 
     /** @var AuthorRepository */
     private $authors;

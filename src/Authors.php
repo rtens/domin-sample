@@ -6,7 +6,7 @@ use rtens\blog\model\repositories\AuthorRepository;
 use rtens\domin\parameters\File;
 use rtens\domin\parameters\Image;
 
-class AuthorService {
+class Authors {
 
     /** @var AuthorRepository */
     private $authors;
@@ -15,7 +15,7 @@ class AuthorService {
         $this->authors = $authors;
     }
 
-    public function listAuthors() {
+    public function all() {
         return $this->authors->readAll();
     }
 
@@ -29,7 +29,7 @@ class AuthorService {
      * @param null|Image $picture
      * @return Author
      */
-    public function registerAuthor($email, $name, Image $picture = null) {
+    public function register($email, $name, Image $picture = null) {
         $author = new Author(
             $email,
             $name,
@@ -42,7 +42,7 @@ class AuthorService {
      * @param \rtens\blog\model\Author-ID $email
      * @param string $name
      */
-    public function changeAuthorName($email, $name) {
+    public function changeName($email, $name) {
         $author = $this->authors->read($email);
         $author->setName($name);
         $this->authors->update($author);
@@ -52,7 +52,7 @@ class AuthorService {
      * @param Author-ID $email
      * @param Image $picture
      */
-    public function changeAuthorPicture($email, Image $picture) {
+    public function changePicture($email, Image $picture) {
         $author = $this->authors->read($email);
         $author->setPicture($picture->getFile());
         $this->authors->update($author);
@@ -62,7 +62,7 @@ class AuthorService {
      * @param Author-ID $email
      * @return Author
      */
-    public function showAuthor($email) {
+    public function show($email) {
         return $this->authors->read($email);
     }
 }

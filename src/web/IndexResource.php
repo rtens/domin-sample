@@ -7,10 +7,10 @@ use watoki\deli\Request;
 
 class IndexResource extends Container {
 
-    /** @var \rtens\blog\PostService <- */
+    /** @var \rtens\blog\Posts <- */
     protected $postService;
 
-    /** @var \rtens\blog\AuthorService <- */
+    /** @var \rtens\blog\Authors <- */
     protected $authorService;
 
     public function respond(Request $request) {
@@ -38,7 +38,7 @@ class IndexResource extends Container {
     }
 
     private function assembleAuthor(Post $post) {
-        $author = $this->authorService->showAuthor($post->getAuthor()->getId());
+        $author = $this->authorService->show($post->getAuthor()->getId());
         return [
             'name' => $author->getName()
         ];
