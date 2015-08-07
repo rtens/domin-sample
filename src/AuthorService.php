@@ -33,7 +33,7 @@ class AuthorService {
         $author = new Author(
             $email,
             $name,
-            $picture->getFile());
+            $picture ? $picture->getFile() : null);
         $this->authors->create($author);
         return $author;
     }
