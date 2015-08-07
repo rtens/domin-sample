@@ -45,7 +45,7 @@ class Admin {
 
     public static function initCli(CliApplication $app, $storageDir) {
         (new Admin($storageDir, $app->factory))
-            ->initActions($app->actions, $app->types, $app->parser);
+            ->initActions($app->actions, $app->types, $app->parser, true);
     }
 
     public function __construct($storageDir, Factory $factory) {
@@ -57,14 +57,14 @@ class Admin {
         $this->authorService = $factory->setSingleton(new AuthorService($this->authors));
     }
 
-    private function initActions(ActionRegistry $actions, TypeFactory $types, CommentParser $parser) {
-        $this->initPostActions($actions, $types, $parser);
-        $this->initAuthorActions($actions, $types, $parser);
+    private function initActions(ActionRegistry $actions, TypeFactory $types, CommentParser $parser, $cli = false) {
+        $this->initPostActions($actions, $types, $parser, $cli);
+        $this->initAuthorActions($actions, $types, $parser, $cli);
 
         return $this;
     }
 
-    private function initPostActions(ActionRegistry $actions, TypeFactory $types, CommentParser $parser) {
+    private function initPostActions(ActionRegistry $actions, TypeFactory $types, CommentParser $parser, $cli) {
         $postExecute = function ($object) {
             $methodName = 'handle' . (new \ReflectionClass($object))->getShortName();
             return call_user_func([$this->postService, $methodName], $object);
@@ -108,19 +108,25 @@ class Admin {
                     return $parameters;
                 });
             })
-            ->configure(ListPosts::class, function (GenericObjectAction $action) use ($types) {
-                $action->setAfterExecute(function ($posts) use ($types) {
-                    return new DataTable((new ObjectTable($posts, $types))
-                        ->selectProperties(['title', 'published', 'publishDate', 'text', 'author'])
-                        ->setHeader('published', 'Up')
-                        ->setFilter('text', function (Html $text) {
-                            return substr(strip_tags($text->getContent()), 0, 50) . '...';
-                        }));
+            ->configure(ListPosts::class, function (GenericObjectAction $action) use ($types, $cli) {
+                $action->setAfterExecute(function ($posts) use ($types, $cli) {
+                    if ($cli) {
+                        return (new ObjectTable($posts, $types))
+                            ->selectProperties(['id', 'title', 'published', 'author'])
+                            ->setHeader('published', 'Up');
+                    } else {
+                        return new DataTable((new ObjectTable($posts, $types))
+                            ->selectProperties(['title', 'published', 'publishDate', 'text', 'author'])
+                            ->setHeader('published', 'Up')
+                            ->setFilter('text', function (Html $text) {
+                                return substr(strip_tags($text->getContent()), 0, 50) . '...';
+                            }));
+                    }
                 });
             });
     }
 
-    private function initAuthorActions(ActionRegistry $actions, TypeFactory $types, CommentParser $parser) {
+    private function initAuthorActions(ActionRegistry $actions, TypeFactory $types, CommentParser $parser, $cli) {
         (new MethodActionGenerator($actions, $types, $parser))
             ->fromObject($this->authorService)
             ->configure($this->authorService, 'changeAuthorName', function (GenericMethodAction $action) {
@@ -137,6 +143,13 @@ class Admin {
                     $actionId = MethodActionGenerator::actionId(AuthorService::class, 'showAuthor');
                     return new RedirectResult($actionId, ['email' => $author->getEmail()]);
                 });
+            })
+            ->configure($this->authorService, 'listAuthors', function (GenericMethodAction $action) use ($types, $cli) {
+                if ($cli) {
+                    $action->setAfterExecute(function ($authors) use ($types) {
+                        return new ObjectTable($authors, $types);
+                    });
+                }
             });
     }
 
