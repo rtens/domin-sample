@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/erusev/parsedown.git",
-                "reference": "0e89e3714bda18973184d30646306bb0a482bd96"
+                "reference": "fa005fdb954330ae6dccb3bb59481da0172d397e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown/zipball/0e89e3714bda18973184d30646306bb0a482bd96",
-                "reference": "0e89e3714bda18973184d30646306bb0a482bd96",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/fa005fdb954330ae6dccb3bb59481da0172d397e",
+                "reference": "fa005fdb954330ae6dccb3bb59481da0172d397e",
                 "shasum": ""
             },
             "type": "library",
@@ -43,7 +43,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2015-08-03 09:24:05"
+            "time": "2015-08-13 12:16:23"
         },
         {
             "name": "league/climate",
@@ -51,12 +51,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/climate.git",
-                "reference": "242bdd4a700e84b309406e3da91f0d078bd31214"
+                "reference": "834cb907c89eb31e2171b68ee25c0ed26c8f34f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/climate/zipball/242bdd4a700e84b309406e3da91f0d078bd31214",
-                "reference": "242bdd4a700e84b309406e3da91f0d078bd31214",
+                "url": "https://api.github.com/repos/thephpleague/climate/zipball/834cb907c89eb31e2171b68ee25c0ed26c8f34f4",
+                "reference": "834cb907c89eb31e2171b68ee25c0ed26c8f34f4",
                 "shasum": ""
             },
             "require": {
@@ -94,7 +94,7 @@
                 "php",
                 "terminal"
             ],
-            "time": "2015-08-06 00:39:01"
+            "time": "2015-08-13 16:50:51"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -102,12 +102,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/serbanghita/Mobile-Detect.git",
-                "reference": "6495567afe1486353bec82d6b2de6f98553d60a5"
+                "reference": "9a8b6c6b259924a7c80021da8ba167766a9fd5b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/6495567afe1486353bec82d6b2de6f98553d60a5",
-                "reference": "6495567afe1486353bec82d6b2de6f98553d60a5",
+                "url": "https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/9a8b6c6b259924a7c80021da8ba167766a9fd5b6",
+                "reference": "9a8b6c6b259924a7c80021da8ba167766a9fd5b6",
                 "shasum": ""
             },
             "require": {
@@ -148,7 +148,7 @@
                 "mobile detector",
                 "php mobile detect"
             ],
-            "time": "2015-06-18 09:43:23"
+            "time": "2015-08-31 13:30:54"
         },
         {
             "name": "nikic/php-parser",
@@ -300,16 +300,16 @@
         },
         {
             "name": "watoki/collections",
-            "version": "v1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/watoki/collections.git",
-                "reference": "967643e9943e69e0efa561cb036517b223942441"
+                "reference": "ff9c866020c7f2daff1b9bc24fe6d64e218af157"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/watoki/collections/zipball/967643e9943e69e0efa561cb036517b223942441",
-                "reference": "967643e9943e69e0efa561cb036517b223942441",
+                "url": "https://api.github.com/repos/watoki/collections/zipball/ff9c866020c7f2daff1b9bc24fe6d64e218af157",
+                "reference": "ff9c866020c7f2daff1b9bc24fe6d64e218af157",
                 "shasum": ""
             },
             "require": {
@@ -341,7 +341,7 @@
                 "data structure",
                 "watoki"
             ],
-            "time": "2014-11-05 07:11:22"
+            "time": "2015-08-07 08:22:49"
         },
         {
             "name": "watoki/curir",
@@ -349,17 +349,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/watoki/curir.git",
-                "reference": "f27297d3839ce3ef798579c676fabfc55ca4db1c"
+                "reference": "b6e075bc004c79b79dff9ed3e86a07cdb87543b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/watoki/curir/zipball/f27297d3839ce3ef798579c676fabfc55ca4db1c",
-                "reference": "f27297d3839ce3ef798579c676fabfc55ca4db1c",
+                "url": "https://api.github.com/repos/watoki/curir/zipball/b6e075bc004c79b79dff9ed3e86a07cdb87543b3",
+                "reference": "b6e075bc004c79b79dff9ed3e86a07cdb87543b3",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4",
-                "watoki/collections": "1.0",
+                "watoki/collections": "dev-master",
                 "watoki/deli": "dev-master",
                 "watoki/factory": "dev-master",
                 "watoki/stores": "dev-master"
@@ -393,7 +393,7 @@
                 "routing",
                 "watoki"
             ],
-            "time": "2015-07-29 09:12:22"
+            "time": "2015-08-07 14:44:23"
         },
         {
             "name": "watoki/deli",
@@ -401,17 +401,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/watoki/deli.git",
-                "reference": "f25b1cf481a68940327d8b9fe13a1bfee8e52442"
+                "reference": "89ae63cae52a177e0be29f706f0d6eda18831c31"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/watoki/deli/zipball/f25b1cf481a68940327d8b9fe13a1bfee8e52442",
-                "reference": "f25b1cf481a68940327d8b9fe13a1bfee8e52442",
+                "url": "https://api.github.com/repos/watoki/deli/zipball/89ae63cae52a177e0be29f706f0d6eda18831c31",
+                "reference": "89ae63cae52a177e0be29f706f0d6eda18831c31",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4",
-                "watoki/collections": "1.0",
+                "watoki/collections": "dev-master",
                 "watoki/factory": "dev-master",
                 "watoki/reflect": "dev-master",
                 "watoki/stores": "dev-master"
@@ -445,7 +445,7 @@
                 "routing",
                 "watoki"
             ],
-            "time": "2015-07-15 10:45:29"
+            "time": "2015-08-07 15:28:05"
         },
         {
             "name": "watoki/factory",
@@ -593,17 +593,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/watoki/stores.git",
-                "reference": "42ec22d9dfa681750080113de7c8bc213b2ed27e"
+                "reference": "6cfedcf5f56badc7eb6139bb08fd8f2128af360f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/watoki/stores/zipball/42ec22d9dfa681750080113de7c8bc213b2ed27e",
-                "reference": "42ec22d9dfa681750080113de7c8bc213b2ed27e",
+                "url": "https://api.github.com/repos/watoki/stores/zipball/6cfedcf5f56badc7eb6139bb08fd8f2128af360f",
+                "reference": "6cfedcf5f56badc7eb6139bb08fd8f2128af360f",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4",
-                "watoki/collections": "1.0",
+                "watoki/collections": "dev-master",
                 "watoki/reflect": "dev-master"
             },
             "require-dev": {
@@ -636,7 +636,7 @@
                 "storage",
                 "watoki"
             ],
-            "time": "2015-07-15 09:06:50"
+            "time": "2015-08-19 14:49:51"
         }
     ],
     "packages-dev": [],
