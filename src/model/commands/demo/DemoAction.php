@@ -27,8 +27,11 @@ class DemoAction {
     /** @var null|string */
     public $nullable = "default";
 
-    /** @var \DateTime This field also accepts [natural language input](http://php.net/manual/en/datetime.formats.relative.php). Click on the calendar to active it. */
+    /** @var \DateTime This field also accepts [natural language input](http://php.net/manual/en/datetime.formats.relative.php). Click on the calendar to activate it. */
     public $dateTime;
+
+    /** @var \DateInterval */
+    public $dateInterval;
 
     /** @var \rtens\domin\parameters\File */
     public $file;

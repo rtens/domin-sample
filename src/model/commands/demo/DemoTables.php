@@ -29,6 +29,13 @@ class DemoTables {
         ];
     }
 
+    function getArrayList() {
+        return [
+            $this->getArray(),
+            $this->getArray()
+        ];
+    }
+
     function getObjectList() {
         return [
             self::bar('uno', 'dos'),
