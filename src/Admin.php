@@ -13,9 +13,9 @@ use rtens\blog\storage\PersistentAuthorRepository;
 use rtens\blog\storage\PersistentPostRepository;
 use rtens\domin\ActionRegistry;
 use rtens\domin\delivery\cli\CliApplication;
+use rtens\domin\delivery\web\menu\ActionMenuItem;
 use rtens\domin\delivery\web\menu\Menu;
 use rtens\domin\delivery\web\menu\MenuGroup;
-use rtens\domin\delivery\web\menu\MenuItem;
 use rtens\domin\delivery\web\renderers\link\ClassLink;
 use rtens\domin\delivery\web\renderers\link\IdentifierLink;
 use rtens\domin\delivery\web\renderers\link\LinkRegistry;
@@ -40,7 +40,7 @@ class Admin {
             ->initActions($app->actions, $app->types, $app->parser)
             ->initLinks($app->links)
             ->initIdentifierProviders($app->identifiers)
-            ->initMenu($app->menu);
+            ->initMenu($app->menu, $app->actions);
     }
 
     public static function initCli(CliApplication $app, $storageDir) {
@@ -196,12 +196,12 @@ class Admin {
         });
     }
 
-    private function initMenu(Menu $menu) {
-        $menu->add(new MenuItem('writePost'));
-        $menu->add(new MenuItem('listPosts'));
-        $menu->addGroup((new MenuGroup('Authors'))
-            ->add(new MenuItem(MethodActionGenerator::actionId(Authors::class, 'register')))
-            ->add(new MenuItem(MethodActionGenerator::actionId(Authors::class, 'all')))
+    private function initMenu(Menu $menu, ActionRegistry $actions) {
+        $menu->add(new ActionMenuItem($actions, 'writePost'));
+        $menu->add(new ActionMenuItem($actions, 'listPosts'));
+        $menu->add((new MenuGroup('Authors'))
+            ->add(new ActionMenuItem($actions, MethodActionGenerator::actionId(Authors::class, 'register')))
+            ->add(new ActionMenuItem($actions, MethodActionGenerator::actionId(Authors::class, 'all')))
         );
 
         return $this;
