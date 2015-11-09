@@ -6,8 +6,11 @@ use rtens\domin\delivery\web\renderers\charting\charts\LineChart;
 use rtens\domin\delivery\web\renderers\charting\charts\PieChart;
 use rtens\domin\delivery\web\renderers\charting\charts\PolarAreaChart;
 use rtens\domin\delivery\web\renderers\charting\charts\RadarChart;
+use rtens\domin\delivery\web\renderers\charting\charts\ScatterChart;
 use rtens\domin\delivery\web\renderers\charting\data\DataPoint;
 use rtens\domin\delivery\web\renderers\charting\data\DataSet;
+use rtens\domin\delivery\web\renderers\charting\data\ScatterData;
+use rtens\domin\delivery\web\renderers\charting\data\ScatterDataPoint;
 
 /**
  * Demonstrates the different Chart types
@@ -51,6 +54,23 @@ class DemoCharts {
 
     public function getPolarAreaChart() {
         return new PolarAreaChart($this->pieChart->getDataPoints());
+    }
+
+    public function getScatterChart() {
+        return new ScatterChart([
+            new ScatterData('foo', [
+                new ScatterDataPoint(12, 42, 2),
+                new ScatterDataPoint(4, 3, 6),
+                new ScatterDataPoint(16, 2, 4),
+                new ScatterDataPoint(4, 42),
+            ]),
+            new ScatterData('bar', [
+                new ScatterDataPoint(4, 23, 8),
+                new ScatterDataPoint(14, 30, 7),
+                new ScatterDataPoint(6, 22, 2),
+                new ScatterDataPoint(3, 2),
+            ]),
+        ]);
     }
 
 }
