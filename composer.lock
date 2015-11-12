@@ -5,7 +5,6 @@
         "This file is @generated automatically"
     ],
     "hash": "08d40633c29d67f521ce0815ccd102a7",
-    "content-hash": "bab40ad68dadc312696fb3607585d0f8",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -52,12 +51,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/climate.git",
-                "reference": "c01ab723b69847b647822f14611d744cdb59ad89"
+                "reference": "e590077d1f47c19aa712434d894e9f72c6cde6c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/climate/zipball/c01ab723b69847b647822f14611d744cdb59ad89",
-                "reference": "c01ab723b69847b647822f14611d744cdb59ad89",
+                "url": "https://api.github.com/repos/thephpleague/climate/zipball/e590077d1f47c19aa712434d894e9f72c6cde6c7",
+                "reference": "e590077d1f47c19aa712434d894e9f72c6cde6c7",
                 "shasum": ""
             },
             "require": {
@@ -95,7 +94,7 @@
                 "php",
                 "terminal"
             ],
-            "time": "2015-10-16 20:45:24"
+            "time": "2015-11-11 02:52:08"
         },
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -202,12 +201,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rtens/domin.git",
-                "reference": "b2bbec83d3adceed623c6d318fed0d54932e67f6"
+                "reference": "3129e87d4bd21181293949f33640d2cf09797d02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rtens/domin/zipball/b2bbec83d3adceed623c6d318fed0d54932e67f6",
-                "reference": "b2bbec83d3adceed623c6d318fed0d54932e67f6",
+                "url": "https://api.github.com/repos/rtens/domin/zipball/3129e87d4bd21181293949f33640d2cf09797d02",
+                "reference": "3129e87d4bd21181293949f33640d2cf09797d02",
                 "shasum": ""
             },
             "require": {
@@ -249,7 +248,7 @@
                 "ddd",
                 "domain model"
             ],
-            "time": "2015-11-09 18:44:36"
+            "time": "2015-11-11 17:48:30"
         },
         {
             "name": "seld/cli-prompt",
@@ -594,12 +593,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/watoki/stores.git",
-                "reference": "203b21c02f7d697b3c09170b994c4976d4752570"
+                "reference": "3dc262ab2b86a8378db55c9643be252904d4c733"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/watoki/stores/zipball/203b21c02f7d697b3c09170b994c4976d4752570",
-                "reference": "203b21c02f7d697b3c09170b994c4976d4752570",
+                "url": "https://api.github.com/repos/watoki/stores/zipball/3dc262ab2b86a8378db55c9643be252904d4c733",
+                "reference": "3dc262ab2b86a8378db55c9643be252904d4c733",
                 "shasum": ""
             },
             "require": {
@@ -637,7 +636,7 @@
                 "storage",
                 "watoki"
             ],
-            "time": "2015-11-05 21:53:49"
+            "time": "2015-11-10 15:06:44"
         }
     ],
     "packages-dev": [],

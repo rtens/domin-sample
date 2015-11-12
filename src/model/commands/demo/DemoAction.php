@@ -21,6 +21,9 @@ class DemoAction {
     /** @var boolean */
     public $boolean = true;
 
+    /** @var \rtens\domin\parameters\Color */
+    public $color;
+
     /** @var self::OPTION_* */
     public $enumeration;
 
