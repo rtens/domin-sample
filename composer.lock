@@ -202,12 +202,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rtens/domin.git",
-                "reference": "2f1b3a421d62df122ffe762c162068a869a7a368"
+                "reference": "7210524e9bb92c1d17aba953aed5cab4645649cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rtens/domin/zipball/2f1b3a421d62df122ffe762c162068a869a7a368",
-                "reference": "2f1b3a421d62df122ffe762c162068a869a7a368",
+                "url": "https://api.github.com/repos/rtens/domin/zipball/7210524e9bb92c1d17aba953aed5cab4645649cb",
+                "reference": "7210524e9bb92c1d17aba953aed5cab4645649cb",
                 "shasum": ""
             },
             "require": {
@@ -249,7 +249,7 @@
                 "ddd",
                 "domain model"
             ],
-            "time": "2015-12-03 13:29:30"
+            "time": "2015-12-03 13:34:41"
         },
         {
             "name": "seld/cli-prompt",
