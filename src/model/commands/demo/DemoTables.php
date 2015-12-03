@@ -2,9 +2,9 @@
 namespace rtens\blog\model\commands\demo;
 
 use rtens\blog\model\commands\demo\inner\Bar;
-use rtens\domin\delivery\web\renderers\tables\ArrayTable;
-use rtens\domin\delivery\web\renderers\tables\DataTable;
-use rtens\domin\delivery\web\renderers\tables\ObjectTable;
+use rtens\domin\delivery\web\renderers\tables\types\ArrayTable;
+use rtens\domin\delivery\web\renderers\tables\types\DataTable;
+use rtens\domin\delivery\web\renderers\tables\types\ObjectTable;
 use rtens\domin\reflection\types\TypeFactory;
 
 /**

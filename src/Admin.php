@@ -16,11 +16,11 @@ use rtens\domin\delivery\cli\CliApplication;
 use rtens\domin\delivery\web\menu\ActionMenuItem;
 use rtens\domin\delivery\web\menu\Menu;
 use rtens\domin\delivery\web\menu\MenuGroup;
-use rtens\domin\delivery\web\renderers\link\ClassLink;
-use rtens\domin\delivery\web\renderers\link\IdentifierLink;
+use rtens\domin\delivery\web\renderers\link\types\ClassLink;
+use rtens\domin\delivery\web\renderers\link\types\IdentifierLink;
 use rtens\domin\delivery\web\renderers\link\LinkRegistry;
-use rtens\domin\delivery\web\renderers\tables\DataTable;
-use rtens\domin\delivery\web\renderers\tables\ObjectTable;
+use rtens\domin\delivery\web\renderers\tables\types\DataTable;
+use rtens\domin\delivery\web\renderers\tables\types\ObjectTable;
 use rtens\domin\delivery\web\WebApplication;
 use rtens\domin\execution\RedirectResult;
 use rtens\domin\parameters\Html;
@@ -31,6 +31,7 @@ use rtens\domin\reflection\GenericObjectAction;
 use rtens\domin\reflection\MethodActionGenerator;
 use rtens\domin\reflection\ObjectActionGenerator;
 use rtens\domin\reflection\types\TypeFactory;
+use watoki\curir\protocol\Url;
 use watoki\factory\Factory;
 
 class Admin {
@@ -40,7 +41,7 @@ class Admin {
             ->initActions($app->actions, $app->types, $app->parser)
             ->initLinks($app->links)
             ->initIdentifierProviders($app->identifiers)
-            ->initMenu($app->menu, $app->actions);
+            ->initMenu($app->menu);
     }
 
     public static function initCli(CliApplication $app, $storageDir) {
@@ -71,6 +72,9 @@ class Admin {
         };
 
         $demoExecute = function ($object) {
+            if (method_exists($object, 'execute')) {
+                return $object->execute();
+            }
             return $object;
         };
 
@@ -78,17 +82,17 @@ class Admin {
             ->fromFolder(__DIR__ . '/model/commands/demo', $demoExecute)
             ->fromFolder(__DIR__ . '/model/commands/post', $postExecute)
             ->configure(WritePost::class, function (GenericObjectAction $action) {
-                $action->setAfterExecute(function (Post $post) {
+                $action->generic()->setAfterExecute(function (Post $post) {
                     return new RedirectResult('showPost', ['id' => $post->getId()]);
                 });
             })
             ->configure(DeletePost::class, function (GenericObjectAction $action) {
-                $action->setAfterExecute(function () {
+                $action->generic()->setAfterExecute(function () {
                     return new RedirectResult('listPosts');
                 });
             })
             ->configure(UpdatePost::class, function (GenericObjectAction $action) {
-                $action->setFill(function ($parameters) {
+                $action->generic()->setFill(function ($parameters) {
                     if ($parameters['id'] && empty($parameters['title'])) {
                         $post = $this->posts->read($parameters['id']);
                         $parameters['title'] = $post->getTitle();
@@ -98,7 +102,7 @@ class Admin {
                 });
             })
             ->configure(ChangePostTags::class, function (GenericObjectAction $action) {
-                $action->setFill(function ($parameters) {
+                $action->generic()->setFill(function ($parameters) {
                     if (!empty($parameters['id'])) {
                         $post = $this->posts->read($parameters['id']);
                         if (empty($parameters['tags'])) {
@@ -109,7 +113,7 @@ class Admin {
                 });
             })
             ->configure(ListPosts::class, function (GenericObjectAction $action) use ($types, $cli) {
-                $action->setAfterExecute(function ($posts) use ($types, $cli) {
+                $action->generic()->setAfterExecute(function ($posts) use ($types, $cli) {
                     if ($cli) {
                         return (new ObjectTable($posts, $types))
                             ->selectProperties(['id', 'title', 'published', 'author'])
@@ -130,7 +134,7 @@ class Admin {
         (new MethodActionGenerator($actions, $types, $parser))
             ->fromObject($this->authorService)
             ->configure($this->authorService, 'changeName', function (GenericMethodAction $action) {
-                $action->setFill(function ($parameters) {
+                $action->generic()->setFill(function ($parameters) {
                     if ($parameters['email']) {
                         $author = $this->authors->read($parameters['email']);
                         $parameters['name'] = $author->getName();
@@ -139,14 +143,14 @@ class Admin {
                 });
             })
             ->configure($this->authorService, 'register', function (GenericMethodAction $action) {
-                $action->setAfterExecute(function (Author $author) {
+                $action->generic()->setAfterExecute(function (Author $author) {
                     $actionId = MethodActionGenerator::actionId(Authors::class, 'show');
                     return new RedirectResult($actionId, ['email' => $author->getEmail()]);
                 });
             })
             ->configure($this->authorService, 'all', function (GenericMethodAction $action) use ($types, $cli) {
                 if ($cli) {
-                    $action->setAfterExecute(function ($authors) use ($types) {
+                    $action->generic()->setAfterExecute(function ($authors) use ($types) {
                         return new ObjectTable($authors, $types);
                     });
                 }
@@ -196,12 +200,12 @@ class Admin {
         });
     }
 
-    private function initMenu(Menu $menu, ActionRegistry $actions) {
-        $menu->add(new ActionMenuItem($actions, 'writePost'));
-        $menu->add(new ActionMenuItem($actions, 'listPosts'));
+    private function initMenu(Menu $menu) {
+        $menu->add(new ActionMenuItem('Write Post', 'writePost'));
+        $menu->add(new ActionMenuItem('All Posts', 'listPosts'));
         $menu->add((new MenuGroup('Authors'))
-            ->add(new ActionMenuItem($actions, MethodActionGenerator::actionId(Authors::class, 'register')))
-            ->add(new ActionMenuItem($actions, MethodActionGenerator::actionId(Authors::class, 'all')))
+            ->add(new ActionMenuItem('Register Author', MethodActionGenerator::actionId(Authors::class, 'register')))
+            ->add(new ActionMenuItem('All Authors', MethodActionGenerator::actionId(Authors::class, 'all')))
         );
 
         return $this;

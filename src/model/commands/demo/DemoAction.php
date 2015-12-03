@@ -42,6 +42,9 @@ class DemoAction {
     /** @var \rtens\domin\parameters\Image */
     public $image;
 
+    /** @var \rtens\domin\parameters\Text */
+    public $text;
+
     /** @var \rtens\domin\parameters\Html */
     public $html;
 
