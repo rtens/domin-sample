@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "hash": "08d40633c29d67f521ce0815ccd102a7",
+    "content-hash": "bab40ad68dadc312696fb3607585d0f8",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -12,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/erusev/parsedown.git",
-                "reference": "c046a6b6469f7ffc99ccfdc96dbe63b3587f4eca"
+                "reference": "0f974bf34fdc420c3a7dc0a6c5c5fc620fa9dd89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown/zipball/c046a6b6469f7ffc99ccfdc96dbe63b3587f4eca",
-                "reference": "c046a6b6469f7ffc99ccfdc96dbe63b3587f4eca",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/0f974bf34fdc420c3a7dc0a6c5c5fc620fa9dd89",
+                "reference": "0f974bf34fdc420c3a7dc0a6c5c5fc620fa9dd89",
                 "shasum": ""
             },
             "type": "library",
@@ -43,7 +44,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2015-10-31 18:08:48"
+            "time": "2015-11-26 13:08:28"
         },
         {
             "name": "league/climate",
@@ -201,12 +202,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rtens/domin.git",
-                "reference": "d7329d052a4fc22b93c4bd3fc524e314dac1570a"
+                "reference": "3a9b3c94515c728ef95e478bf910f0c0bd75f153"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rtens/domin/zipball/d7329d052a4fc22b93c4bd3fc524e314dac1570a",
-                "reference": "d7329d052a4fc22b93c4bd3fc524e314dac1570a",
+                "url": "https://api.github.com/repos/rtens/domin/zipball/3a9b3c94515c728ef95e478bf910f0c0bd75f153",
+                "reference": "3a9b3c94515c728ef95e478bf910f0c0bd75f153",
                 "shasum": ""
             },
             "require": {
@@ -248,7 +249,7 @@
                 "ddd",
                 "domain model"
             ],
-            "time": "2015-11-13 22:25:14"
+            "time": "2015-12-03 09:33:14"
         },
         {
             "name": "seld/cli-prompt",
@@ -401,12 +402,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/watoki/deli.git",
-                "reference": "89ae63cae52a177e0be29f706f0d6eda18831c31"
+                "reference": "1c0b581f7fe02f8e1ea866befcb4393fad2ca6ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/watoki/deli/zipball/89ae63cae52a177e0be29f706f0d6eda18831c31",
-                "reference": "89ae63cae52a177e0be29f706f0d6eda18831c31",
+                "url": "https://api.github.com/repos/watoki/deli/zipball/1c0b581f7fe02f8e1ea866befcb4393fad2ca6ae",
+                "reference": "1c0b581f7fe02f8e1ea866befcb4393fad2ca6ae",
                 "shasum": ""
             },
             "require": {
@@ -445,7 +446,7 @@
                 "routing",
                 "watoki"
             ],
-            "time": "2015-08-07 15:28:05"
+            "time": "2015-11-25 17:59:09"
         },
         {
             "name": "watoki/factory",
@@ -500,12 +501,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/watoki/reflect.git",
-                "reference": "d7115d405473c528746970cc06317f5c15131ba7"
+                "reference": "45019668f58c93a9165e0dbfca19c267938ba912"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/watoki/reflect/zipball/d7115d405473c528746970cc06317f5c15131ba7",
-                "reference": "d7115d405473c528746970cc06317f5c15131ba7",
+                "url": "https://api.github.com/repos/watoki/reflect/zipball/45019668f58c93a9165e0dbfca19c267938ba912",
+                "reference": "45019668f58c93a9165e0dbfca19c267938ba912",
                 "shasum": ""
             },
             "require": {
@@ -541,7 +542,7 @@
                 "type hints",
                 "watoki"
             ],
-            "time": "2015-11-05 17:09:51"
+            "time": "2015-11-25 17:59:32"
         },
         {
             "name": "watoki/smokey",
@@ -593,12 +594,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/watoki/stores.git",
-                "reference": "3dc262ab2b86a8378db55c9643be252904d4c733"
+                "reference": "a65fd06e5333c245a176dcd41c7693979fe5dcac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/watoki/stores/zipball/3dc262ab2b86a8378db55c9643be252904d4c733",
-                "reference": "3dc262ab2b86a8378db55c9643be252904d4c733",
+                "url": "https://api.github.com/repos/watoki/stores/zipball/a65fd06e5333c245a176dcd41c7693979fe5dcac",
+                "reference": "a65fd06e5333c245a176dcd41c7693979fe5dcac",
                 "shasum": ""
             },
             "require": {
@@ -636,7 +637,7 @@
                 "storage",
                 "watoki"
             ],
-            "time": "2015-11-10 15:06:44"
+            "time": "2015-11-25 18:05:48"
         }
     ],
     "packages-dev": [],
