@@ -16,6 +16,7 @@ use rtens\domin\delivery\cli\CliApplication;
 use rtens\domin\delivery\web\menu\ActionMenuItem;
 use rtens\domin\delivery\web\menu\Menu;
 use rtens\domin\delivery\web\menu\MenuGroup;
+use rtens\domin\delivery\web\renderers\DelayedOutputRenderer;
 use rtens\domin\delivery\web\renderers\link\types\ClassLink;
 use rtens\domin\delivery\web\renderers\link\types\IdentifierLink;
 use rtens\domin\delivery\web\renderers\link\LinkRegistry;
@@ -37,6 +38,8 @@ use watoki\factory\Factory;
 class Admin {
 
     public static function initWeb(WebApplication $app, $storageDir) {
+        DelayedOutputRenderer::$bufferSize = 1024 * 64;
+
         (new Admin($storageDir, $app->factory))
             ->initActions($app->actions, $app->types, $app->parser)
             ->initLinks($app->links)
