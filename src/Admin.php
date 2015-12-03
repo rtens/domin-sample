@@ -38,7 +38,9 @@ use watoki\factory\Factory;
 class Admin {
 
     public static function initWeb(WebApplication $app, $storageDir) {
-        DelayedOutputRenderer::$bufferSize = 1024 * 64;
+        if (strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false) {
+            DelayedOutputRenderer::$bufferSize = 1024 * 64;
+        }
 
         (new Admin($storageDir, $app->factory))
             ->initActions($app->actions, $app->types, $app->parser)
